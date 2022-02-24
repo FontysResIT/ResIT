@@ -9,7 +9,7 @@
     <img src="img/logo_default.png" alt="Logo" width="176" height="156">
   </a>
 </div>
-<h1>ResIT </h1>
+<h1>ResIT</h1>
 
 <span>© ResIT</span>
 
