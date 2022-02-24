@@ -22,4 +22,4 @@
 [issues-shield]: https://img.shields.io/github/issues/RealSnowKid/ResIT?style=for-the-badge
 [issues-url]: https://github.com/RealSnowKid/ResIT/issues
 [license-shield]: https://img.shields.io/github/license/RealSnowKid/ResIT?style=for-the-badge
-[license-url]: https://github.com/RealSnowKid/ResIT/blob/main/LICENSE
+[license-url]: https://github.com/RealSnowKid/ResIT/blob/master/LICENSE
