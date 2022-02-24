@@ -4,7 +4,14 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-# ResIT
+<div align="center">
+  <a href="https://github.com/RealSnowKid/ResIT">
+    <img src="img/logo_default.png" alt="Logo" width="176" height="156">
+  </a>
+</div>
+<h1>ResIT </h1>
+
+<span>© ResIT</span>
 
 [contributors-shield]: https://img.shields.io/github/contributors/RealSnowKid/ResIT?color=blue&style=for-the-badge
 [contributors-url]: https://github.com/RealSnowKid/ResIT/graphs/contributors
