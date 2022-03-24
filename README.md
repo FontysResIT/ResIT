@@ -6,7 +6,7 @@
 
 <div align="center">
   <a href="https://github.com/RealSnowKid/ResIT">
-    <img src="img/logo_default.png" alt="Logo" width="176" height="156">
+    <img src="img/logo_horizontal.png" alt="Logo" width="170" height="55">
   </a>
 </div>
 <h1>ResIT</h1>
