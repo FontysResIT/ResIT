@@ -1,6 +1,8 @@
-# ResIT
+# ResIT Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+<a href="https://github.com/RealSnowKid/ResIT">
+    <img src="https://raw.githubusercontent.com/RealSnowKid/ResIT/master/img/logo_horizontal.png" alt="Logo" width="170" height="55">
+</a>
 
 ## Recommended IDE Setup
 
@@ -10,37 +12,31 @@ This template should help get you started developing with Vue 3 in Vite.
 
 TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Build with
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+ - Vue 3
+ - Vite
+ - Vue Router
+ - Vue Axios
+ - Vuex
+ - Tailwind
 
-## Customize configuration
+## How to run
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1. Make sure to have NodeJS and NPM installed
+2. First install the node_modules with `npm install`
+3. To run the site with hot-reload `npm run dev`
+4. To build the site for production `npm run build`
 
-## Project Setup
+## Folder Structure
 
-```sh
-npm install
+```c++
+├───public          // Basic HTML files
+├───src             // Source code
+    ├───assets      // Logos, css
+    ├───components  // Components that can be used by views
+    ├───router      // Http router
+    └───views       // Full pages that use the components
+
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
