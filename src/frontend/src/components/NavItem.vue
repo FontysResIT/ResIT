@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <RouterLink :to="to || '/'"
     ><span
-      class="flex flex-1 items-center my-4 justify-center sm:justify-start text-muted hover:scale-110 sm:hover:scale-105 transition-transform"
+      class="flex flex-1 items-center my-4 justify-center sm:justify-start text-muted hover:scale-110 sm:hover:scale-105 transition-all"
       ><font-awesome-icon
         :icon="icon"
         class="w-8 h-8 sm:scale-75 transition-transform text-muted" /><span

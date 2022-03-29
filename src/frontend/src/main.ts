@@ -15,6 +15,7 @@ import {
   faUtensils,
   faClock,
   faTimes,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPhone);
@@ -24,6 +25,7 @@ library.add(faBuilding);
 library.add(faUtensils);
 library.add(faClock);
 library.add(faTimes);
+library.add(faUser);
 const app = createApp(App);
 axios.defaults.baseURL = "";
 app.use(router);
