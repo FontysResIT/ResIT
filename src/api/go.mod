@@ -22,9 +22,11 @@ require (
 
 require (
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.7.7
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
+	github.com/mandrigin/gin-spa v0.0.0-20200212133200-790d0c0c7335
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
