@@ -5,6 +5,6 @@ import (
 	"github.com/RealSnowKid/ResIT/repository"
 )
 
-func GetAllReservations() []model.Reservation {
-	return repository.Repo.Reservation.All()
+func GetAllReservations() []*model.Reservation {
+	return repository.Reservation.All()
 }

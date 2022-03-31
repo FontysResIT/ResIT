@@ -1,5 +1,5 @@
 package model
 
 type Reservation struct {
-	Id int
+	Id int `bson:"name"`
 }

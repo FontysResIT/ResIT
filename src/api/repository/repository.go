@@ -1,21 +1,16 @@
 package repository
 
 import (
-	"github.com/RealSnowKid/ResIT/repository/scylla"
+	"github.com/RealSnowKid/ResIT/repository/mongodb"
 )
-var Repo Repository
-
-type Repository struct{
-	Reservation IReservation
-	// Repositories go here
-	// ...
-}
+// var Repo Repository
+var Reservation IReservation
 
 func Init() {
-	Repo = Repository{ 
-		Reservation: scylla.NewReservationRepository(),
+	mongodb.Init()
+	mongoDatabase := mongodb.GetMongoDB()
+	Reservation = mongodb.NewReservationRepository(mongoDatabase)
 		// New repositories are defined here
-	}
 }
 
 
