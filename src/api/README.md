@@ -37,7 +37,7 @@
 ├───logic           // Business logic files
 ├───model           // Data models
 ├───repository      // Contains repositories
-│   └───scylla      // Scylla database repository implementations
+│   └───mongodb     // MongoDB database repository implementations
 └───router          // Routers (Http, gRPC etc.)
     └───http        // Http router
         └───handler // Http router handler functions
