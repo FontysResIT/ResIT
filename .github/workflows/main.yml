@@ -6,11 +6,11 @@ defaults:
 
 on:
   push:
-    branches: [main, staging, development]
+    branches: [master, staging, development]
     paths:
       - src/api/**
   pull_request:
-    branches: [main, staging, development]
+    branches: [master, staging, development]
     paths:
       - src/api/**
 
