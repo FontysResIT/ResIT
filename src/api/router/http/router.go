@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/RealSnowKid/ResIT/config"
+	"github.com/RealSnowKid/ResIT/logic"
+	"github.com/RealSnowKid/ResIT/repository"
 	"github.com/RealSnowKid/ResIT/router/http/handler"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
@@ -17,12 +19,17 @@ func Init() {
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./static", true)))
 	api := engine.Group("/api/")
+	
+	reservationRepository := repository.Reservation;
+	reservationLogic := logic.NewReservationLogic(reservationRepository)
+	reservationHandler := handler.NewReservationHandler(reservationLogic)
+
 	engine.NoRoute(func(c *gin.Context){
 		c.File("./static/index.html")
 	})
 	//Routes are defined here
 	api.GET("/health", healthCheck)
-	api.GET("/reservation", handler.GetAllReservations)
+	api.GET("/reservation", reservationHandler.GetAllReservations)
 
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 }

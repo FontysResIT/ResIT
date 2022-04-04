@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAllReservations(c *gin.Context) {
-	var reservation = logic.GetAllReservations()
+var _logic logic.IReservationLogic
+type handler struct {}
+
+func NewReservationHandler(logic logic.IReservationLogic) *handler {
+	_logic = logic
+	return &handler{}
+}
+
+func (*handler) GetAllReservations(c *gin.Context) {
+	var reservation = _logic.GetAllReservations()
 	c.JSON(http.StatusOK, reservation)
 }

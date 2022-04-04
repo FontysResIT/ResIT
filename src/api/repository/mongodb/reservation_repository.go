@@ -20,8 +20,8 @@ func NewReservationRepository(db *mongo.Database) *MongoDBReservation {
 	}
 }
 
-func (repo *MongoDBReservation) All() []*model.Reservation {
-	var reservations []*model.Reservation
+func (repo *MongoDBReservation) All() []model.Reservation {
+	var reservations []model.Reservation
 	collection := repo.db.Collection("reservations")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -36,7 +36,7 @@ func (repo *MongoDBReservation) All() []*model.Reservation {
 			fmt.Println(err)
 		}
 		
-		reservations = append(reservations, &elem)
+		reservations = append(reservations, elem)
 	}
 	fmt.Println(reservations)
 	// var m = &model.Reservation{Id: episodes[0].name}

@@ -5,6 +5,19 @@ import (
 	"github.com/RealSnowKid/ResIT/repository"
 )
 
-func GetAllReservations() []*model.Reservation {
-	return repository.Reservation.All()
+type IReservationLogic interface {
+	GetAllReservations() []model.Reservation
+}
+
+var _repository repository.IReservation
+
+type logic struct {}
+
+func NewReservationLogic(repository repository.IReservation) *logic {
+	_repository = repository
+	return &logic{}
+}
+
+func (* logic) GetAllReservations() []model.Reservation {
+	return _repository.All()
 }
