@@ -9,5 +9,5 @@ import (
 
 func GetAllReservations(c *gin.Context) {
 	var reservation = logic.GetAllReservations()
-	c.JSON(http.StatusOK, gin.H{"reservation": reservation})
+	c.JSON(http.StatusOK, reservation)
 }

@@ -1,7 +1,7 @@
 package model
 
 type Reservation struct {
-	Id int `bson:"_id"`
+	Id string `bson:"_id"`
 	FirstName string `bson:"first_name"`
 	LastName string `bson:"last_name"`
 	Email string `bson:"email"`
