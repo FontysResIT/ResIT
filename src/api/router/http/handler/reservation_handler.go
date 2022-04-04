@@ -15,6 +15,11 @@ func NewReservationHandler(logic logic.IReservationLogic) *handler {
 	return &handler{}
 }
 
+// @Description Get all reservations
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} []model.Reservation	"ok"
+// @Router /reservation [get]
 func (*handler) GetAllReservations(c *gin.Context) {
 	var reservation = _logic.GetAllReservations()
 	c.JSON(http.StatusOK, reservation)

@@ -10,7 +10,6 @@ import (
 	httpRouter "github.com/RealSnowKid/ResIT/router/http"
 )
 
-
 func main() {
 	environment := flag.String("e", "development", "")
 	flag.Usage = func() {
