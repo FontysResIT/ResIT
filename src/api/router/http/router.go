@@ -17,12 +17,12 @@ func Init() {
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./static", true)))
 	api := engine.Group("/api/")
-	engine.NoRoute(func(c *gin.Context){
+	engine.NoRoute(func(c *gin.Context) {
 		c.File("./static/index.html")
 	})
 	//Routes are defined here
 	api.GET("/health", healthCheck)
-	api.GET("/reservation", handler.GetAllReservations)
+	api.GET("/reservations", handler.GetAllReservations)
 
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 }
