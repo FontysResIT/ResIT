@@ -3,6 +3,7 @@ package httpRouter
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/RealSnowKid/ResIT/config"
 	"github.com/RealSnowKid/ResIT/docs"
@@ -64,20 +65,26 @@ func Init() {
 	engine := gin.Default()
 	engine.SetTrustedProxies([]string{})
 	engine.Use(gin.Recovery())
-	engine.Use(static.Serve("/", static.LocalFile("./static", true)))
+	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
 	api := engine.Group("/api/")
-	
-	docs.SwaggerInfo.BasePath = "/api"
-	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	
 
-	reservationRepository := repository.Reservation;
+	//Swagger Config & Routes
+	docs.SwaggerInfo.BasePath = "/api"
+	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	api.GET("/docs", func(c *gin.Context) { c.Redirect(http.StatusPermanentRedirect, "/api/docs/index.html") })
+
+	//Injection
+	reservationRepository := repository.Reservation
 	reservationLogic := logic.NewReservationLogic(reservationRepository)
 	reservationHandler := handler.NewReservationHandler(reservationLogic)
 
-	engine.NoRoute(func(c *gin.Context){
-		c.File("./static/index.html")
+	engine.NoRoute(func(c *gin.Context) {
+		if !strings.HasPrefix(c.Request.RequestURI, "/api/") {
+			c.File("./public/index.html")
+		}
+		c.Next()
 	})
+
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservation", reservationHandler.GetAllReservations)
