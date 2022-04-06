@@ -11,13 +11,13 @@ type IReservationLogic interface {
 
 var _repository repository.IReservation
 
-type logic struct {}
+type logic struct{}
 
 func NewReservationLogic(repository repository.IReservation) *logic {
 	_repository = repository
 	return &logic{}
 }
 
-func (* logic) GetAllReservations() []model.Reservation {
+func (*logic) GetAllReservations() []model.Reservation {
 	return _repository.All()
 }
