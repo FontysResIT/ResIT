@@ -2,6 +2,7 @@ package logic
 
 import (
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 
 	"github.com/RealSnowKid/ResIT/model"
@@ -22,7 +23,7 @@ func (mock *MockRepository) All() []model.Reservation {
 func TestGetAll(t *testing.T) {
 	mockRepo := new(MockRepository)
 
-	userProfile := model.Reservation{Id: "0", FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: "0", Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: "0", Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 	// Setup expectations
 	mockRepo.On("All").Return([]model.Reservation{userProfile})
 
