@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"context"
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -27,7 +27,7 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 		log.Fatal(err)
 	}
 	if err = result.All(context.TODO(), &reservations); err != nil {
-		panic(err)
+		log.Error(err)
 	}
 	return reservations
 }
