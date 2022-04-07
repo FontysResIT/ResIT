@@ -6,21 +6,11 @@ defaults:
 
 on:
   push:
-    branches: [development, feature/heroku-staging-deployment]
+    branches: [development]
   pull_request:
     branches: [development]
     paths:
       - src/api/**
-  workflow_call:
-    inputs:
-      ENVIRONMENT:
-        required: true
-        type: string
-    secrets:
-      MONGO_URL:
-        required: true
-      MONGO_DATABASE:
-        required: true
 
 jobs:
   build:
@@ -35,13 +25,3 @@ jobs:
           heroku_email: "resit.project@gmail.com"
           appdir: "src/api"
           usedocker: true
-          docker_build_args: |
-            MONGO_URL
-            MONGO_DATABASE
-            MONGO_USERNAME
-            MONGO_PASSWORD
-        env:
-          MONG_URL: ${{secrets.MONGO_URL}}
-          MONGO_DATABASE: Staging
-          MONGO_USERNAME: ${{secrets.MONGO_USERNAME}}
-          MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}

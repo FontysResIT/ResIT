@@ -102,7 +102,6 @@ func healthCheck(c *gin.Context) {
 
 func getPort(config *viper.Viper) string {
 	var port string
-	fmt.Println(config.GetString("port"))
 	if config.GetString("port") != "" {
 		port = config.GetString("port")
 	} else {

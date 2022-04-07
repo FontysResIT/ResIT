@@ -21,11 +21,6 @@ func GetMongoDB() *mongo.Database {
 func Init() {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	config := config.GetConfig()
-	// TO_DO: DEBUG REMOVE LINES
-	fmt.Println(config.GetString("mongo.url"))
-	fmt.Println(config.GetString("mongo.database"))
-	fmt.Println(config.GetString("mongo.username"))
-	fmt.Println(config.GetString("mongo.password"))
 	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority", config.GetString("mongo.username"), url.QueryEscape(config.GetString("mongo.password")), config.GetString("mongo.url"), config.GetString("mongo.database"))
 	clientOptions := options.Client().
 		ApplyURI(connectionString).
