@@ -8,6 +8,7 @@ import (
 	"github.com/RealSnowKid/ResIT/config"
 	"github.com/RealSnowKid/ResIT/repository"
 	httpRouter "github.com/RealSnowKid/ResIT/router/http"
+	"github.com/common-nighthawk/go-figure"
 )
 
 func main() {
@@ -17,8 +18,10 @@ func main() {
 		os.Exit(1)
 	}
 	flag.Parse()
+	resItLogo := figure.NewFigure("ResIT", "", true)
+	resItLogo.Print()
+	fmt.Println("")
 	config.Init(*environment)
 	repository.Init()
 	httpRouter.Init()
-	// defer repository.DB.Close()
 }
