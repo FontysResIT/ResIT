@@ -2,7 +2,6 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/RealSnowKid/ResIT/model"
@@ -27,18 +26,9 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for result.Next(context.TODO()) {
-		
-		// create a value into which the single document can be decoded
-		var elem model.Reservation
-		err := result.Decode(&elem)
-		if err != nil {
-			fmt.Println(err)
-		}
-		
-		reservations = append(reservations, elem)
+	if err = result.All(context.TODO(), &reservations); err != nil {
+		panic(err)
 	}
-	fmt.Println(reservations)
-	// var m = &model.Reservation{Id: episodes[0].name}
+	//fmt.Println(reservations[0].GuestNeeds[0].DietaryRequirements)
 	return reservations
 }
