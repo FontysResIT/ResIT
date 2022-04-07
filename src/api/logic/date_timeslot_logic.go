@@ -13,11 +13,11 @@ var _repositoryDT repository.IDateTimeslot
 
 type DTlogic struct{}
 
-func NewDateTimeslotLogic(repository repository.IDateTimeslot) *logic {
+func NewDateTimeslotLogic(repository repository.IDateTimeslot) *DTlogic {
 	_repositoryDT = repository
-	return &logic{}
+	return &DTlogic{}
 }
 
-func (*logic) GetAllDateTimeslots() []model.DateTimeSlot {
+func (*DTlogic) GetAllDateTimeslots() []model.DateTimeSlot {
 	return _repositoryDT.All()
 }

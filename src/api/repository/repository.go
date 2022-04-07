@@ -7,6 +7,7 @@ import (
 // var Repo Repository
 var Reservation IReservation
 var DateTimeSlot IDateTimeslot
+var TimeSlot ITimeSlot
 
 func Init() {
 	mongodb.Init()
@@ -14,5 +15,5 @@ func Init() {
 	Reservation = mongodb.NewReservationRepository(mongoDatabase)
 	// New repositories are defined here
 	DateTimeSlot = mongodb.NewDateTimeslotRepository(mongoDatabase)
-	mongodb.NewTimeslotRepository(mongoDatabase)
+	TimeSlot = mongodb.NewTimeSlotRepository(mongoDatabase)
 }
