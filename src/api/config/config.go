@@ -13,8 +13,8 @@ func Init(env string) {
 	var err error
 	config = viper.New()
 	config.SetDefault("http.port", "8080")
+	config.SetDefault("environment", env)
 	config.SetConfigType("yaml")
-	config.Set("environment", env)
 	config.SetConfigName(env)
 	config.AddConfigPath("../config/")
 	config.AddConfigPath("config/")
