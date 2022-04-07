@@ -12,6 +12,7 @@ import (
 	"github.com/RealSnowKid/ResIT/router/http/handler"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -88,7 +89,7 @@ func Init() {
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservation", reservationHandler.GetAllReservations)
-	fmt.Println(engine.Run(fmt.Sprintf(":%s", getPort(config))))
+	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
 }
 
 // @Description API Healthcheck
@@ -108,4 +109,12 @@ func getPort(config *viper.Viper) string {
 		port = config.GetString("http.port")
 	}
 	return port
+}
+
+func getIp(config *viper.Viper) string {
+	var ip string
+	if config.GetString("environment") == "development" {
+		ip = "127.0.0.1"
+	}
+	return ip
 }

@@ -2,10 +2,9 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	"github.com/RealSnowKid/ResIT/model"
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -28,17 +27,16 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 		log.Fatal(err)
 	}
 	for result.Next(context.TODO()) {
-		
+
 		// create a value into which the single document can be decoded
 		var elem model.Reservation
 		err := result.Decode(&elem)
 		if err != nil {
-			fmt.Println(err)
+			log.Error(err)
 		}
-		
+
 		reservations = append(reservations, elem)
 	}
-	fmt.Println(reservations)
 	// var m = &model.Reservation{Id: episodes[0].name}
 	return reservations
 }

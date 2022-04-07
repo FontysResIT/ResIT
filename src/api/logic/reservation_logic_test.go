@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/RealSnowKid/ResIT/model"
@@ -29,7 +28,6 @@ func TestGetAll(t *testing.T) {
 	testService := NewReservationLogic(mockRepo)
 
 	result := testService.GetAllReservations()
-	fmt.Println(result)
 	//Mock Assertion: Behavioral
 	mockRepo.AssertExpectations(t)
 
