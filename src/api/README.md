@@ -30,6 +30,13 @@
 <img src="https://raw.githubusercontent.com/gin-gonic/logo/master/color.png" alt="Logo"  height="55">
 </a>
 
+## Update API Docs
+
+1. Run `swag init --ot go,yaml` in this current folder
+2. New swagger documentation can now be found in the `/docs` folder
+
+_Read [swaggo](https://github.com/swaggo/swag) docs for more info_
+
 ## Folder Structure
 
 ```c++

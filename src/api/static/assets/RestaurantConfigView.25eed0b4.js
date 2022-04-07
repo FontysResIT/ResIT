@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vue_export-helper.21dcd24c.js";import{o,c as t}from"./index.dd5833f6.js";const r={},c={class:"about"};function a(s,n){return o(),t("div",c)}var i=e(r,[["render",a]]);export{i as default};

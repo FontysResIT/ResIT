@@ -2,7 +2,6 @@ package config
 
 import (
 	"log"
-	"path/filepath"
 
 	"github.com/spf13/viper"
 )
@@ -18,14 +17,7 @@ func Init(env string) {
 	config.AddConfigPath("config/")
 	err = config.ReadInConfig()
 	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func relativePath(basedir string, path *string) {
-	p := *path
-	if len(p) > 0 && p[0] != '/' {
-		*path = filepath.Join(basedir, p)
+		log.Fatal("error on parsing configuration file")
 	}
 }
 

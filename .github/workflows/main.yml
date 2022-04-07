@@ -1,0 +1,49 @@
+name: CI
+
+defaults:
+  run:
+    working-directory: src/api
+
+on:
+  push:
+    branches: [master, staging, development]
+    paths:
+      - src/api/**
+  pull_request:
+    branches: [master, staging, development]
+    paths:
+      - src/api/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name: Check Go version
+        run: go version
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Run vet
+        run: go vet .
+
+      - name: Run staticcheck
+        run: |
+          go install "honnef.co/go/tools/cmd/staticcheck@2022.1"
+          $(go env GOPATH)/bin/staticcheck ./...
+          
+      - name: Run coverage
+        run: go test -race -covermode=atomic -coverprofile=coverage.out -v ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2

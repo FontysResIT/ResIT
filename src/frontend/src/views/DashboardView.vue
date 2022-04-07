@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import KPI from "../components/KPI.vue";
+import TableComponent from "../components/TableComponent.vue";
+import SearchInput from "../components/SearchInput.vue";
+import DateInput from "../components/DateInput.vue";
 </script>
 
 <template>
@@ -27,7 +30,18 @@ import KPI from "../components/KPI.vue";
       />
     </div>
     <div class="flex flex-1 flex-row m-4 mt-0">
-      <div class="flex flex-1 bg-white rounded-3xl shadow-sm"></div>
+      <div class="flex flex-1 flex-col bg-white rounded-3xl shadow-sm">
+        <div class="flex flex-row p-4 h-1/6 items-center flex-wrap box-content">
+          <div class="flex flex-1 justify-center px-2 max-w-[200px]">
+            <span class="text-2xl font-bold text-primary">Reservations</span>
+          </div>
+          <div class="flex flex-[2] justify-center px-2"><SearchInput /></div>
+          <div class="flex flex-1 justify-center px-2"><DateInput /></div>
+        </div>
+        <div class="flex flex-row p-4">
+          <TableComponent />
+        </div>
+      </div>
     </div>
   </div>
 </template>

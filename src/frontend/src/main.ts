@@ -6,7 +6,7 @@ import VueAxios from "vue-axios";
 
 //Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { library, type Library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPhone,
   faCalendarCheck,
@@ -16,16 +16,24 @@ import {
   faClock,
   faTimes,
   faUser,
+  faSearch,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPhone);
-library.add(faCalendarCheck);
-library.add(faCogs);
-library.add(faBuilding);
-library.add(faUtensils);
-library.add(faClock);
-library.add(faTimes);
-library.add(faUser);
+const addIcons = (lib: Library) => {
+  lib.add(faPhone);
+  lib.add(faCalendarCheck);
+  lib.add(faCogs);
+  lib.add(faBuilding);
+  lib.add(faUtensils);
+  lib.add(faClock);
+  lib.add(faTimes);
+  lib.add(faUser);
+  lib.add(faSearch);
+  lib.add(faCaretDown);
+};
+
+addIcons(library);
 const app = createApp(App);
 axios.defaults.baseURL = "";
 app.use(router);

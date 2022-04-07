@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import { defineProps } from "vue";
 
 defineProps<{
   icon?: string;
@@ -15,7 +14,7 @@ defineProps<{
       ><font-awesome-icon
         :icon="icon"
         class="w-8 h-8 sm:scale-75 transition-transform text-muted" /><span
-        class="hidden max-w-[10rem] ml-2 block font-semibold sm:flex"
+        class="hidden max-w-[10rem] ml-2 font-semibold sm:flex"
         ><slot /></span></span
   ></RouterLink>
 </template>
