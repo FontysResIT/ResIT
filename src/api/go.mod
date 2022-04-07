@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/spf13/viper v1.10.1
+	github.com/swaggo/swag v1.7.9
 	go.mongodb.org/mongo-driver v1.8.4
 )
 
@@ -34,7 +35,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.1.0 // indirect
-	github.com/swaggo/swag v1.7.9 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect
