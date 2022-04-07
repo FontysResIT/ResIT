@@ -11,6 +11,24 @@
 </div>
 <h1>ResIT</h1>
 
+<h2>Roadmap</h2>
+
+- [x] Implement mongo
+- [x] Create API structure
+- [x] Get all reservations
+- [ ] Query parameters
+- [ ] Connect API with front-end
+- [x] Swagger documentation
+- [ ] Create reservation
+- [ ] Cancel reservation
+- [ ] Configure timeslots
+- [ ] Configure capacity
+- [ ] Create special event
+- [ ] Security (accounts, roles)
+- [ ] Statistics (kpi's, charts, line diagrams etc.)
+- [ ] Reschedule reservation
+- [ ] Reviews
+
 <span>© ResIT</span>
 
 [contributors-shield]: https://img.shields.io/github/contributors/RealSnowKid/ResIT?color=blue&style=for-the-badge
