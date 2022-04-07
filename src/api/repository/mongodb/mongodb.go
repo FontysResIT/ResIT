@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/url"
 	"time"
 
 	"github.com/RealSnowKid/ResIT/config"
@@ -21,7 +20,8 @@ func GetMongoDB() *mongo.Database {
 func Init() {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	config := config.GetConfig()
-	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority", config.GetString("mongo.username"), url.QueryEscape(config.GetString("mongo.password")), config.GetString("mongo.url"), config.GetString("mongo.database"))
+	connectionString := config.GetString("mongo.url")
+	fmt.Println(connectionString)
 	clientOptions := options.Client().
 		ApplyURI(connectionString).
 		SetServerAPIOptions(serverAPIOptions)
