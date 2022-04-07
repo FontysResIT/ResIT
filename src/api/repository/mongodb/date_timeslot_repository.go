@@ -20,8 +20,8 @@ func NewDateTimeslotRepository(db *mongo.Database) *MongoDBDateTimeslot {
 	}
 }
 
-func (repo *MongoDBDateTimeslot) All() []*model.DateTimeSlot {
-	var dateTimeSlots []*model.DateTimeSlot
+func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
+	var dateTimeSlots []model.DateTimeSlot
 	collection := repo.db.Collection("date_timeslot")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -36,7 +36,7 @@ func (repo *MongoDBDateTimeslot) All() []*model.DateTimeSlot {
 			fmt.Println(err)
 		}
 
-		dateTimeSlots = append(dateTimeSlots, &elem)
+		dateTimeSlots = append(dateTimeSlots, elem)
 	}
 	fmt.Println(dateTimeSlots)
 

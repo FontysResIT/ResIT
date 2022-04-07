@@ -77,6 +77,9 @@ func Init() {
 	reservationRepository := repository.Reservation
 	reservationLogic := logic.NewReservationLogic(reservationRepository)
 	reservationHandler := handler.NewReservationHandler(reservationLogic)
+	dateTimeSlotRepository := repository.DateTimeSlot
+	dateTimeSlotLogic := logic.NewDateTimeslotLogic(dateTimeSlotRepository)
+	dateTimeSlotHandler := handler.NewDateTimeslotHandler(dateTimeSlotLogic)
 
 	engine.NoRoute(func(c *gin.Context) {
 		if !strings.HasPrefix(c.Request.RequestURI, "/api/") {
@@ -88,6 +91,7 @@ func Init() {
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservation", reservationHandler.GetAllReservations)
+	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 }
 
