@@ -1,9 +1,9 @@
 package logic
 
 import (
-	"fmt"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/stretchr/testify/assert"
@@ -30,7 +30,6 @@ func TestGetAll(t *testing.T) {
 	testService := NewReservationLogic(mockRepo)
 
 	result := testService.GetAllReservations()
-	fmt.Println(result)
 	//Mock Assertion: Behavioral
 	mockRepo.AssertExpectations(t)
 
