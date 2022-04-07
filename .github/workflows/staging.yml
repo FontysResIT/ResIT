@@ -11,6 +11,16 @@ on:
     branches: [development]
     paths:
       - src/api/**
+  workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      MONGO_URL:
+        required: true
+      MONGO_DATABASE:
+        required: true
 
 jobs:
   build:
