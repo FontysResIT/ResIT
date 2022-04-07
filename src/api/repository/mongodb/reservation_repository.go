@@ -28,17 +28,26 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 		log.Fatal(err)
 	}
 	for result.Next(context.TODO()) {
-		
+
 		// create a value into which the single document can be decoded
 		var elem model.Reservation
 		err := result.Decode(&elem)
 		if err != nil {
 			fmt.Println(err)
 		}
-		
+
 		reservations = append(reservations, elem)
 	}
 	fmt.Println(reservations)
 	// var m = &model.Reservation{Id: episodes[0].name}
 	return reservations
+}
+
+func (repo *MongoDBReservation) Create(reservation model.Reservation) *mongo.InsertOneResult {
+	collection := repo.db.Collection("reservations")
+	result, err := collection.InsertOne(context.TODO(), reservation)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result
 }

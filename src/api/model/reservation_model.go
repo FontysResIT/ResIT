@@ -10,7 +10,7 @@ type Reservation struct {
 	PhoneNumber    string             `bson:"phone_number" json:"phone_number"`
 	Remark         string             `bson:"remark" json:"remark"`
 	GuestCount     int                `bson:"guest_count" json:"guest_count"`
-	GuestNeeds     []GuestNeed        `bson:"guest_needs" json:"guest_needs"`
+	GuestPersona   []GuestPersona     `bson:"guest_persona" json:"guest_persona"`
 	IsCancelled    bool               `bson:"is_cancelled" json:"is_cancelled"`
 	IsRescheduled  bool               `bson:"is_rescheduled" json:"is_rescheduled"`
 	DateTimeSlotId string             `bson:"dts_id" json:"dts_id"`

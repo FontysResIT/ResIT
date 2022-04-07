@@ -19,7 +19,10 @@ func (mock *MockRepository) All() []model.Reservation {
 	result := args.Get(0)
 	return result.([]model.Reservation)
 }
-
+func (mock *MockRepository) Create(reservation model.Reservation) model.Reservation {
+	mock.Called()
+	return reservation
+}
 func TestGetAll(t *testing.T) {
 	mockRepo := new(MockRepository)
 

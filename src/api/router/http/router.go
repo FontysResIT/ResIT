@@ -88,6 +88,7 @@ func Init() {
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservation", reservationHandler.GetAllReservations)
+	api.POST("/reservation", reservationHandler.CreateReservation)
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 }
 
