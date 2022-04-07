@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/url"
 	"time"
 
 	"github.com/RealSnowKid/ResIT/config"
@@ -23,7 +22,9 @@ func Init() {
 	config := config.GetConfig()
 	// TO_DO: REMOVE LINE
 	fmt.Println(config.GetString("mongo.url"))
-	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority", config.GetString("mongo.username"), url.QueryEscape(config.GetString("mongo.password")), config.GetString("mongo.url"), config.GetString("mongo.database"))
+	connectionString := "mongodb+srv://admin:P@ssW0rd@resit.vv8ei.mongodb.net/resit?retryWrites=true&w=majority"
+
+	//connectionString := fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority", config.GetString("mongo.username"), url.QueryEscape(config.GetString("mongo.password")), config.GetString("mongo.url"), config.GetString("mongo.database"))
 	clientOptions := options.Client().
 		ApplyURI(connectionString).
 		SetServerAPIOptions(serverAPIOptions)
