@@ -29,6 +29,5 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	if err = result.All(context.TODO(), &reservations); err != nil {
 		panic(err)
 	}
-	//fmt.Println(reservations[0].GuestNeeds[0].DietaryRequirements)
 	return reservations
 }
