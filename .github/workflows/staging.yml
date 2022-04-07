@@ -28,10 +28,8 @@ jobs:
           docker_build_args: |
             MONGO_URL
             MONGO_DATABASE
-            MONGO_USERNAME
-            MONGO_PASSWORD
         env:
           MONG_URL: ${{ secrets.MONGO_URL }}
           MONGO_DATABASE: Staging
-          MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          # MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+          # MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
