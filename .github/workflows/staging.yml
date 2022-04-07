@@ -41,5 +41,3 @@ jobs:
         env:
           MONG_URL: ${{ secrets.MONGO_URL }}
           MONGO_DATABASE: Staging
-          # MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
-          # MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
