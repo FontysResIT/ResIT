@@ -2,8 +2,10 @@ package logic
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/stretchr/testify/assert"
@@ -19,9 +21,10 @@ func (mock *MockRepository) All() []model.Reservation {
 	result := args.Get(0)
 	return result.([]model.Reservation)
 }
-func (mock *MockRepository) Create(reservation model.Reservation) model.Reservation {
-	mock.Called()
-	return reservation
+func (mock *MockRepository) Create(reservation model.Reservation) *mongo.InsertOneResult {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.(*mongo.InsertOneResult)
 }
 func TestGetAll(t *testing.T) {
 	mockRepo := new(MockRepository)

@@ -27,7 +27,7 @@ func (*logic) GetAllReservations() []model.Reservation {
 	return _repository.All()
 }
 
-func (*logic) CreateReservation(reservation model.Reservation) *mongo.InsertOneResult{
+func (*logic) CreateReservation(reservation model.Reservation) *mongo.InsertOneResult {
 	fmt.Println("reservation logic inside createReservation")
 	reservation.Id = primitive.NewObjectID()
 	return _repository.Create(reservation)
