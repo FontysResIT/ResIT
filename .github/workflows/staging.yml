@@ -5,10 +5,12 @@ defaults:
     working-directory: src/api
 
 on:
-  push:
-    branches: [development]
-    paths:
-      - src/api/**
+  workflow_run:
+    workflows: ["CI"]
+    branches: [master, development]
+    types: 
+      - completed
+
 
 jobs:
   build:
