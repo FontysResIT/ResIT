@@ -12,7 +12,7 @@ RUN go get
 RUN go build -o build ./main.go
 
 RUN go install github.com/swaggo/swag/cmd/swag@latest
-RUN swag init
+RUN swag init  --parseDependency --parseInternal
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
