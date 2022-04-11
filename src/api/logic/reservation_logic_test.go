@@ -1,12 +1,14 @@
 package logic
 
 import (
+	"fmt"
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/RealSnowKid/ResIT/model"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -41,7 +43,7 @@ func TestGetAll(t *testing.T) {
 func TestCreate(t *testing.T) {
 	mockRepo := new(MockRepository)
 
-	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: "0", Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 	insertOneResult := new(mongo.InsertOneResult)
 	insertOneResult.InsertedID = userProfile.Id
 	// Setup expectations
