@@ -2,8 +2,7 @@ import axios from "axios";
 import type { Reservation } from "./models/Reservation";
 import type { TimeSlot } from "./models/TimeSlot";
 
-const BASE_URL = import.meta.env.API_URL;
-console.log(BASE_URL);
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
   // here we put our headers
@@ -11,12 +10,12 @@ const headers = {
 class AxiosService {
   async getAllReservations() {
     try {
-      await axios
+      return await axios
         .get(`${BASE_URL}/reservations`, {
           headers: headers,
         })
         .then(function (response) {
-          return response;
+          return response.data;
         });
     } catch (error) {
       console.log(error);

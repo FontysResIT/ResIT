@@ -69,7 +69,7 @@ func Init() {
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
 	api := engine.Group("/api/")
-
+	api.Use(corsMiddleware())
 	//Swagger Config & Routes
 	docs.SwaggerInfo.BasePath = "/api"
 	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -92,6 +92,7 @@ func Init() {
 		}
 		c.Next()
 	})
+
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservations", reservationHandler.GetAllReservations)
@@ -101,7 +102,6 @@ func Init() {
 	// Example: dateTimeSlots/dateId/2022-04-08
 	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
-	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 	api.POST("/reservations", reservationHandler.CreateReservation)
 	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
 }
@@ -131,4 +131,21 @@ func getIp(config *viper.Viper) string {
 		ip = "127.0.0.1"
 	}
 	return ip
+}
+
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("Setting headers")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

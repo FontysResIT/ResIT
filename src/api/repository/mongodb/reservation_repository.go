@@ -39,8 +39,6 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 
 		reservations = append(reservations, elem)
 	}
-	fmt.Println(reservations)
-	// var m = &model.Reservation{Id: episodes[0].name}
 	return reservations
 }
 

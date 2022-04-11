@@ -38,7 +38,6 @@ func (repo *MongoDBTimeSlot) All() []model.TimeSlot {
 
 		timeSlots = append(timeSlots, elem)
 	}
-	fmt.Println(timeSlots)
 
 	return timeSlots
 }

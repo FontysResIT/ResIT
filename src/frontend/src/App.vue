@@ -4,9 +4,9 @@ import NavItem from "./components/NavItem.vue";
 </script>
 
 <template>
-  <div class="h-24 flex">
+  <div class="min-h-[6rem] flex">
     <div
-      class="w-1/3 max-w-xs flex justify-center items-center w-1/2 min-w-[7rem] px-2"
+      class="w-1/3 max-w-xs flex justify-center items-center min-w-[7rem] px-2"
     >
       <img src="@/assets/logo.svg" alt="logo" />
     </div>
