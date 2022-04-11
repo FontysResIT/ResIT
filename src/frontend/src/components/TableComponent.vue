@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Reservation } from "@/models/Reservation";
+
+defineProps<{ data: Reservation[] }>();
+</script>
 <template>
   <div class="w-full">
     <table>
@@ -9,11 +13,15 @@
         <th>Guests</th>
         <th>Time Slot</th>
       </tr>
-      <tr>
-        <td class="hidden sm:table-cell">20919</td>
-        <td>Maria Anders</td>
-        <td class="hidden sm:table-cell">maria@gmail.com</td>
-        <td>5</td>
+      <tr
+        v-for="reservation in data"
+        v-bind:key="reservation.id"
+        class="hover:bg-secondary cursor-pointer"
+      >
+        <td class="hidden sm:table-cell">{{ reservation.id }}</td>
+        <td>{{ `${reservation.first_name} ${reservation.last_name}` }}</td>
+        <td class="hidden sm:table-cell">{{ reservation.email }}</td>
+        <td>{{ reservation.guest_count }}</td>
         <td>12:00 - 13:30</td>
       </tr>
     </table>

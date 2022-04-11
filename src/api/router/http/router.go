@@ -12,6 +12,8 @@ import (
 	"github.com/RealSnowKid/ResIT/router/http/handler"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -67,7 +69,7 @@ func Init() {
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
 	api := engine.Group("/api/")
-
+	api.Use(corsMiddleware())
 	//Swagger Config & Routes
 	docs.SwaggerInfo.BasePath = "/api"
 	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -75,8 +77,14 @@ func Init() {
 
 	//Injection
 	reservationRepository := repository.Reservation
-	reservationLogic := logic.NewReservationLogic(reservationRepository)
+	dateTimeSlotRepository := repository.DateTimeSlot
+	timeSlotRepository := repository.TimeSlot
+	reservationLogic := logic.NewReservationLogic(reservationRepository, dateTimeSlotRepository)
 	reservationHandler := handler.NewReservationHandler(reservationLogic)
+	dateTimeSlotLogic := logic.NewDateTimeslotLogic(dateTimeSlotRepository)
+	dateTimeSlotHandler := handler.NewDateTimeslotHandler(dateTimeSlotLogic)
+	timeSlotLogic := logic.NewTimeSlotLogic(timeSlotRepository)
+	timeSlotHandler := handler.NewTimeSlotHandler(timeSlotLogic)
 
 	engine.NoRoute(func(c *gin.Context) {
 		if !strings.HasPrefix(c.Request.RequestURI, "/api/") {
@@ -87,8 +95,15 @@ func Init() {
 
 	//Routes are defined here
 	api.GET("/health", healthCheck)
-	api.GET("/reservation", reservationHandler.GetAllReservations)
-	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
+	api.GET("/reservations", reservationHandler.GetAllReservations)
+	// Example: reservations/2022-04-08
+	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
+	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
+	// Example: dateTimeSlots/dateId/2022-04-08
+	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
+	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
+	api.POST("/reservations", reservationHandler.CreateReservation)
+	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
 }
 
 // @Description API Healthcheck
@@ -98,4 +113,39 @@ func Init() {
 // @Router /health [get]
 func healthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "server is up and running"})
+}
+
+func getPort(config *viper.Viper) string {
+	var port string
+	if config.GetString("port") != "" {
+		port = config.GetString("port")
+	} else {
+		port = config.GetString("http.port")
+	}
+	return port
+}
+
+func getIp(config *viper.Viper) string {
+	var ip string
+	if config.GetString("environment") == "development" {
+		ip = "127.0.0.1"
+	}
+	return ip
+}
+
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("Setting headers")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

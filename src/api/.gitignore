@@ -1,2 +1,5 @@
 *yaml
 !example.yaml
+.vscode/*
+!.vscode/settings.json
+/.idea/
