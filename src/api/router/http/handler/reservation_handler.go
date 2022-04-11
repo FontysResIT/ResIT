@@ -50,7 +50,7 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 // @Description Create reservation
 // @Accept  json
 // @Produce  json
-// @Success 200 mongo.InsertOneResult "ok"
+// @Success 200 {object} model.Reservation "ok"
 // @Router /reservation [post]
 func (*handler) CreateReservation(c *gin.Context) {
 	var input model.Reservation
