@@ -72,3 +72,12 @@ func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
 	}
 	return reservations
 }
+
+func (repo *MongoDBReservation) Create(reservation model.Reservation) *mongo.InsertOneResult {
+	collection := repo.db.Collection("reservations")
+	result, err := collection.InsertOne(context.TODO(), reservation)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return result
+}

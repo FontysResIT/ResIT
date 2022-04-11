@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/RealSnowKid/ResIT/logic"
+	"github.com/RealSnowKid/ResIT/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -44,4 +45,25 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 	log.Println("DATE", date)
 	var reservations = _logic.GetAllReservationsByDate(date)
 	c.JSON(http.StatusOK, reservations)
+}
+
+// @Description Create reservation
+// @Accept  json
+// @Produce  json
+// @Success 200 mongo.InsertOneResult "ok"
+// @Router /reservation [post]
+func (*handler) CreateReservation(c *gin.Context) {
+	log.Println("first log")
+	var input model.Reservation
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		log.Println(input)
+		return
+	}
+	log.Println(input)
+	var reservation = _logic.CreateReservation(input)
+	c.JSON(http.StatusOK, reservation)
+
+	// var reservationoutcome = _logic.CreateReservation(model.Reservation)
+	// c.JSON(http.StatusOK, reservation)
 }

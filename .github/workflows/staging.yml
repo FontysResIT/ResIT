@@ -1,0 +1,27 @@
+name: Staging
+
+defaults:
+  run:
+    working-directory: src/api
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: [master, development]
+    types: 
+      - completed
+
+
+jobs:
+  build:
+    environment: staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "staging-resit"
+          heroku_email: "resit.project@gmail.com"
+          appdir: "src/api"
+          usedocker: true
