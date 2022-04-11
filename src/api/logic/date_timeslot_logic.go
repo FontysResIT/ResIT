@@ -9,7 +9,8 @@ import (
 
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
-	GetDateTimeslotByDate(date time.Time) []model.DateTimeSlot
+	GetDateTimeslotsByDate(time.Time) []model.DateTimeSlot
+	GetDateTimeslotByDate(time.Time) []string
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -25,6 +26,10 @@ func (*DTlogic) GetAllDateTimeslots() []model.DateTimeSlot {
 	return _repositoryDT.All()
 }
 
-func (*DTlogic) GetDateTimeslotByDate(date time.Time) []model.DateTimeSlot {
-	return _repositoryDT.Date(date)
+func (*DTlogic) GetDateTimeslotsByDate(param time.Time) []model.DateTimeSlot {
+	return _repositoryDT.AllByDate(param)
+}
+
+func (*DTlogic) GetDateTimeslotByDate(param time.Time) []string {
+	return _repositoryDT.IdByDate(param)
 }

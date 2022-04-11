@@ -42,11 +42,10 @@ func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
 	return dateTimeSlots
 }
 
-func (repo *MongoDBDateTimeslot) Date(date time.Time) []model.DateTimeSlot {
+func (repo *MongoDBDateTimeslot) AllByDate(param time.Time) []model.DateTimeSlot {
 	var dTSlots []model.DateTimeSlot
-	log.Println(date)
 	collection := repo.db.Collection("date_timeslot")
-	filter := bson.D{{"date", date}}
+	filter := bson.D{{Key: "date", Value: param}}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Fatal(err)
@@ -62,5 +61,26 @@ func (repo *MongoDBDateTimeslot) Date(date time.Time) []model.DateTimeSlot {
 		dTSlots = append(dTSlots, elem)
 	}
 
+	return dTSlots
+}
+
+func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []string {
+	var dTSlots []string
+	collection := repo.db.Collection("date_timeslot")
+	filter := bson.D{{Key: "date", Value: param}}
+	result, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(result)
+	for result.Next(context.TODO()) {
+
+		var elem model.DateTimeSlot
+		err := result.Decode(&elem)
+		if err != nil {
+			fmt.Println(err)
+		}
+		dTSlots = append(dTSlots, elem.Id)
+	}
 	return dTSlots
 }

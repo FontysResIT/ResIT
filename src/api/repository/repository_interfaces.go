@@ -16,5 +16,6 @@ type ITimeSlot interface {
 
 type IDateTimeslot interface {
 	All() []model.DateTimeSlot
-	Date(time.Time) []model.DateTimeSlot
+	AllByDate(time.Time) []model.DateTimeSlot
+	IdByDate(time.Time) []string
 }

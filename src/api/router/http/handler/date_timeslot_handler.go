@@ -30,24 +30,40 @@ func (*handler) GetAllDateTimeslots(c *gin.Context) {
 	c.JSON(http.StatusOK, dateTimeSlot)
 }
 
-func (*handler) GetDateTimeslotByDate(c *gin.Context) {
-	var input time.Time
-	param := c.Param("date")
-	var year int
-	if s, err := strconv.Atoi(strings.Split(param, "-")[0]); err == nil {
-		year = s
+func (*handler) GetDateTimeslotByParam(c *gin.Context) {
+	query := c.Param("query")
+	param := c.Param("param")
+	log.Println("Query:", query)
+	switch query {
+	case "date":
+		var params = strings.Split(strings.Split(param, "/")[1], "-")
+		var dates = []int{}
+
+		for _, v := range params {
+			j, err := strconv.Atoi(v)
+			if err != nil {
+				panic(err)
+			}
+			dates = append(dates, j)
+		}
+		date := time.Date(dates[0], time.Month(dates[1]), dates[2], 0, 0, 0, 0, time.Local)
+		log.Println("Date param:", date)
+		dateTimeSlots := _DTSlogic.GetDateTimeslotsByDate(date)
+		c.JSON(http.StatusOK, dateTimeSlots)
+	case "dateId":
+		var params = strings.Split(strings.Split(param, "/")[1], "-")
+		var dates = []int{}
+
+		for _, v := range params {
+			j, err := strconv.Atoi(v)
+			if err != nil {
+				panic(err)
+			}
+			dates = append(dates, j)
+		}
+		date := time.Date(dates[0], time.Month(dates[1]), dates[2], 0, 0, 0, 0, time.Local)
+		log.Println("Date param:", date)
+		dateTimeSlot := _DTSlogic.GetDateTimeslotByDate(date)
+		c.JSON(http.StatusOK, dateTimeSlot)
 	}
-	var month int
-	if s, err := strconv.Atoi(strings.Split(param, "-")[1]); err == nil {
-		month = s
-	}
-	var date int
-	if s, err := strconv.Atoi(strings.Split(param, "-")[2]); err == nil {
-		date = s
-	}
-	log.Println("Params: ", param)
-	log.Println(year, time.Month(month), date)
-	input = time.Date(year, time.Month(month), date, 0, 0, 0, 0, time.Local)
-	var dateTimeSlots = _DTSlogic.GetDateTimeslotByDate(input)
-	c.JSON(http.StatusOK, dateTimeSlots)
 }
