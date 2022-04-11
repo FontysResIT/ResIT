@@ -45,3 +45,22 @@ func TestGetAll(t *testing.T) {
 	assert.Equal(t, userProfile.Email, result[0].Email)
 	assert.Equal(t, userProfile.GuestCount, result[0].GuestCount)
 }
+
+func TestCreate(t *testing.T) {
+	mockRepo := new(MockRepository)
+
+	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: "0", Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	insertOneResult := new(mongo.InsertOneResult)
+	insertOneResult.InsertedID = userProfile.Id
+	// Setup expectations
+	mockRepo.On("Create").Return(insertOneResult)
+
+	testService := NewReservationLogic(mockRepo)
+
+	result := testService.CreateReservation(userProfile)
+	fmt.Println(result)	//Mock Assertion: Behavioral
+	mockRepo.AssertExpectations(t)
+
+	//Data Assertion
+	assert.Equal(t, userProfile.Id, result.InsertedID)
+}

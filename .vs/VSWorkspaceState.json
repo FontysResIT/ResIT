@@ -1,14 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\api",
-    "\\src\\api\\config",
-    "\\src\\api\\docs",
-    "\\src\\api\\logic",
-    "\\src\\api\\router",
-    "\\src\\api\\router\\http",
-    "\\src\\api\\router\\http\\handler"
+    "\\.github",
+    "\\.github\\workflows"
   ],
   "PreviewInSolutionExplorer": false
 }

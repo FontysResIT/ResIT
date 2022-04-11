@@ -28,6 +28,11 @@ func (*handler) GetAllReservations(c *gin.Context) {
 	c.JSON(http.StatusOK, reservation)
 }
 
+// @Description Create reservation
+// @Accept  json
+// @Produce  json
+// @Success 200 mongo.InsertOneResult "ok"
+// @Router /reservation [post]
 func (*handler) CreateReservation(c *gin.Context) {
 	fmt.Println("first log")
 	var input model.Reservation
