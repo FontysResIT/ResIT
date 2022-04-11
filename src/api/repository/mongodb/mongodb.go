@@ -15,7 +15,7 @@ import (
 var mongoDatabase *mongo.Database
 
 func GetMongoDB() *mongo.Database {
-    return mongoDatabase
+	return mongoDatabase
 }
 
 func Init() {

@@ -1,14 +1,12 @@
 package logic
 
 import (
-	"fmt"
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/RealSnowKid/ResIT/model"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -29,19 +27,13 @@ func (mock *MockRepository) Create(reservation model.Reservation) *mongo.InsertO
 func TestGetAll(t *testing.T) {
 	mockRepo := new(MockRepository)
 
-	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: "0", Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
-	// Setup expectations
+	userProfile := model.Reservation{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+
 	mockRepo.On("All").Return([]model.Reservation{userProfile})
 
 	testService := NewReservationLogic(mockRepo)
 
-	result := testService.GetAllReservations()
-	fmt.Println(result)
-	//Mock Assertion: Behavioral
-	mockRepo.AssertExpectations(t)
+	testService.GetAllReservations()
 
-	//Data Assertion
-	assert.Equal(t, userProfile.Id, result[0].Id)
-	assert.Equal(t, userProfile.Email, result[0].Email)
-	assert.Equal(t, userProfile.GuestCount, result[0].GuestCount)
+	mockRepo.AssertExpectations(t)
 }

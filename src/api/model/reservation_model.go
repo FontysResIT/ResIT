@@ -13,5 +13,5 @@ type Reservation struct {
 	GuestPersona   []GuestPersona     `bson:"guest_persona" json:"guest_persona"`
 	IsCancelled    bool               `bson:"is_cancelled" json:"is_cancelled"`
 	IsRescheduled  bool               `bson:"is_rescheduled" json:"is_rescheduled"`
-	DateTimeSlotId string             `bson:"dts_id" json:"dts_id"`
+	DateTimeSlotId primitive.ObjectID `bson:"dts_id" json:"dts_id"`
 }
