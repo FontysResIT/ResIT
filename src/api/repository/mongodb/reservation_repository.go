@@ -3,10 +3,12 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -25,11 +27,9 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
-
-		// create a value into which the single document can be decoded
 		var elem model.Reservation
 		err := result.Decode(&elem)
 		if err != nil {
@@ -38,16 +38,16 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 
 		reservations = append(reservations, elem)
 	}
-	fmt.Println(reservations)
-	// var m = &model.Reservation{Id: episodes[0].name}
 	return reservations
 }
 
-func (repo *MongoDBReservation) Create(reservation model.Reservation) *mongo.InsertOneResult {
+func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Reservation, error) {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.InsertOne(context.TODO(), reservation)
+	fmt.Println(result)
+	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
-	return result
+	return reservation, err
 }
