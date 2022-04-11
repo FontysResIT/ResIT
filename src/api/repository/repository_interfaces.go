@@ -8,6 +8,7 @@ import (
 
 type IReservation interface {
 	All() []model.Reservation
+	AllByDate([]string) []model.Reservation
 }
 
 type ITimeSlot interface {
