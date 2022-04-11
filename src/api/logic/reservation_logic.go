@@ -1,17 +1,14 @@
 package logic
 
 import (
-	"fmt"
-
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/RealSnowKid/ResIT/repository"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/RealSnowKid/ResIT/util"
 )
 
 type IReservationLogic interface {
 	GetAllReservations() []model.Reservation
-	CreateReservation(model.Reservation) *mongo.InsertOneResult
+	CreateReservation(model.Reservation) (model.Reservation, error)
 }
 
 var _repository repository.IReservation
@@ -27,8 +24,11 @@ func (*logic) GetAllReservations() []model.Reservation {
 	return _repository.All()
 }
 
-func (*logic) CreateReservation(reservation model.Reservation) *mongo.InsertOneResult {
-	fmt.Println("reservation logic inside createReservation")
-	reservation.Id = primitive.NewObjectID()
-	return _repository.Create(reservation)
+func (*logic) CreateReservation(reservation model.Reservation) (model.Reservation, error) {
+	result, err := _repository.Create(reservation)
+	if err == nil {
+		go util.CreateReservation(result)
+	}
+	return result, err
+
 }

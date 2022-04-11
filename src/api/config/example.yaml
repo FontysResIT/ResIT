@@ -5,3 +5,13 @@ mongo:
   database: "testDB"
   username: "test"
   password: "test"
+kafka:
+  enabled: false
+  topic: "reservation"
+  topic_prefix: ""
+  partition: 0
+  username: "test"
+  password: "test"
+  brokers:
+    - "adress 1"
+    - "adress 2"

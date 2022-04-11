@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/RealSnowKid/ResIT/logic"
@@ -34,17 +33,15 @@ func (*handler) GetAllReservations(c *gin.Context) {
 // @Success 200 mongo.InsertOneResult "ok"
 // @Router /reservation [post]
 func (*handler) CreateReservation(c *gin.Context) {
-	fmt.Println("first log")
 	var input model.Reservation
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		fmt.Println(input)
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println(input)
-	var reservation = _logic.CreateReservation(input)
+	reservation, err := _logic.CreateReservation(input)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Oops, something went wrong"})
+		return
+	}
 	c.JSON(http.StatusOK, reservation)
-
-	// var reservationoutcome = _logic.CreateReservation(model.Reservation)
-	// c.JSON(http.StatusOK, reservation)
 }
