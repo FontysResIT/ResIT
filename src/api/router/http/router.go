@@ -95,8 +95,10 @@ func Init() {
 	//Routes are defined here
 	api.GET("/health", healthCheck)
 	api.GET("/reservations", reservationHandler.GetAllReservations)
+	// Example: reservations/2022-04-08
 	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
 	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
+	// Example: dateTimeSlots/dateId/2022-04-08
 	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
