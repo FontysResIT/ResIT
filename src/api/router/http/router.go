@@ -100,7 +100,7 @@ func Init() {
 	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
-	api.POST("/reservation", reservationHandler.CreateReservation)
+	api.POST("/reservations", reservationHandler.CreateReservation)
 	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
 }
 
