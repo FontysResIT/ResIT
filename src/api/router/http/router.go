@@ -93,8 +93,8 @@ func Init() {
 
 	//Routes are defined here
 	api.GET("/health", healthCheck)
-	api.GET("/reservation", reservationHandler.GetAllReservations)
-	api.GET("/reservation/:date", reservationHandler.GetAllReservationsByDate)
+	api.GET("/reservations", reservationHandler.GetAllReservations)
+	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
 	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
 	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
