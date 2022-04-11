@@ -42,10 +42,11 @@ func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
 	return dateTimeSlots
 }
 
-func (repo *MongoDBDateTimeslot) Date() []model.DateTimeSlot {
+func (repo *MongoDBDateTimeslot) Date(date time.Time) []model.DateTimeSlot {
 	var dTSlots []model.DateTimeSlot
+	log.Println(date)
 	collection := repo.db.Collection("date_timeslot")
-	filter := bson.D{{"date", time.Date(2022, time.April, 7, 0, 0, 0, 0, time.Local)}}
+	filter := bson.D{{"date", date}}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Fatal(err)

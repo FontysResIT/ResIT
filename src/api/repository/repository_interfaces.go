@@ -1,6 +1,10 @@
 package repository
 
-import "github.com/RealSnowKid/ResIT/model"
+import (
+	"time"
+
+	"github.com/RealSnowKid/ResIT/model"
+)
 
 type IReservation interface {
 	All() []model.Reservation
@@ -12,5 +16,5 @@ type ITimeSlot interface {
 
 type IDateTimeslot interface {
 	All() []model.DateTimeSlot
-	Date() []model.DateTimeSlot
+	Date(time.Time) []model.DateTimeSlot
 }

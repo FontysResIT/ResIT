@@ -1,13 +1,15 @@
 package logic
 
 import (
+	"time"
+
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/RealSnowKid/ResIT/repository"
 )
 
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
-	GetDateTimeslotByDate() []model.DateTimeSlot
+	GetDateTimeslotByDate(date time.Time) []model.DateTimeSlot
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -23,6 +25,6 @@ func (*DTlogic) GetAllDateTimeslots() []model.DateTimeSlot {
 	return _repositoryDT.All()
 }
 
-func (*DTlogic) GetDateTimeslotByDate() []model.DateTimeSlot {
-	return _repositoryDT.Date()
+func (*DTlogic) GetDateTimeslotByDate(date time.Time) []model.DateTimeSlot {
+	return _repositoryDT.Date(date)
 }

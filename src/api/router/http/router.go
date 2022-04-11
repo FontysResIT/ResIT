@@ -96,7 +96,7 @@ func Init() {
 	api.GET("/reservation", reservationHandler.GetAllReservations)
 	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
-	api.GET("/dateTimeSlots/date", dateTimeSlotHandler.GetDateTimeslotByDate)
+	api.GET("/dateTimeSlots/:date", dateTimeSlotHandler.GetDateTimeslotByDate)
 	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
 }
 
