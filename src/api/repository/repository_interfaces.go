@@ -4,11 +4,13 @@ import (
 	"time"
 
 	"github.com/RealSnowKid/ResIT/model"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type IReservation interface {
 	All() []model.Reservation
 	AllByDate([]string) []model.Reservation
+	Create(model.Reservation) *mongo.InsertOneResult
 }
 
 type ITimeSlot interface {
