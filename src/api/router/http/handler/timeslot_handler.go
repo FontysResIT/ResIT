@@ -19,7 +19,7 @@ func NewTimeSlotHandler(logic logic.ITimeSlotLogic) *handler {
 // @Description Get all timeslots
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} []model.TimeSlot	"ok"
+// @Success 200 {array} []model.TimeSlot "ok"
 // @Router /timeslots [get]
 func (*handler) GetAllTimeSlots(c *gin.Context) {
 	var timeSlot = _TSlogic.GetAllTimeSlots()

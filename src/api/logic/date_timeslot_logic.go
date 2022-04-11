@@ -7,6 +7,7 @@ import (
 
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
+	GetDateTimeslotByDate() []model.DateTimeSlot
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -20,4 +21,8 @@ func NewDateTimeslotLogic(repository repository.IDateTimeslot) *DTlogic {
 
 func (*DTlogic) GetAllDateTimeslots() []model.DateTimeSlot {
 	return _repositoryDT.All()
+}
+
+func (*DTlogic) GetDateTimeslotByDate() []model.DateTimeSlot {
+	return _repositoryDT.Date()
 }

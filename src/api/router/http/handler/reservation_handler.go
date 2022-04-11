@@ -8,7 +8,8 @@ import (
 )
 
 var _logic logic.IReservationLogic
-type handler struct {}
+
+type handler struct{}
 
 func NewReservationHandler(logic logic.IReservationLogic) *handler {
 	_logic = logic
@@ -18,7 +19,7 @@ func NewReservationHandler(logic logic.IReservationLogic) *handler {
 // @Description Get all reservations
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} []model.Reservation	"ok"
+// @Success 200 {array} []model.Reservation "ok"
 // @Router /reservation [get]
 func (*handler) GetAllReservations(c *gin.Context) {
 	var reservation = _logic.GetAllReservations()

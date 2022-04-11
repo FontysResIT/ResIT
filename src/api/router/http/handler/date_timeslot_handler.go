@@ -19,9 +19,14 @@ func NewDateTimeslotHandler(logic logic.IDateTimeslotLogic) *handler {
 // @Description Get all date time slots
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} []model.DateTimeSlot  "ok"
+// @Success 200 {array} []model.DateTimeSlot "ok"
 // @Router /dateTimeSlots [get]
 func (*handler) GetAllDateTimeslots(c *gin.Context) {
 	var dateTimeSlot = _DTSlogic.GetAllDateTimeslots()
 	c.JSON(http.StatusOK, dateTimeSlot)
+}
+
+func (*handler) GetDateTimeslotByDate(c *gin.Context) {
+	var dateTimeSlots = _DTSlogic.GetDateTimeslotByDate()
+	c.JSON(http.StatusOK, dateTimeSlots)
 }

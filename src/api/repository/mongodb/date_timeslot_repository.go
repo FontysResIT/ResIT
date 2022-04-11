@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,7 +29,6 @@ func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
 		log.Fatal(err)
 	}
 	for result.Next(context.TODO()) {
-
 		// create a value into which the single document can be decoded
 		var elem model.DateTimeSlot
 		err := result.Decode(&elem)
@@ -38,7 +38,28 @@ func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
 
 		dateTimeSlots = append(dateTimeSlots, elem)
 	}
-	fmt.Println(dateTimeSlots)
 
 	return dateTimeSlots
+}
+
+func (repo *MongoDBDateTimeslot) Date() []model.DateTimeSlot {
+	var dTSlots []model.DateTimeSlot
+	collection := repo.db.Collection("date_timeslot")
+	filter := bson.D{{"date", time.Date(2022, time.April, 7, 0, 0, 0, 0, time.Local)}}
+	result, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for result.Next(context.TODO()) {
+
+		var elem model.DateTimeSlot
+		err := result.Decode(&elem)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		dTSlots = append(dTSlots, elem)
+	}
+
+	return dTSlots
 }
