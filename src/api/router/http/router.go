@@ -77,8 +77,14 @@ func Init() {
 
 	//Injection
 	reservationRepository := repository.Reservation
-	reservationLogic := logic.NewReservationLogic(reservationRepository)
+	dateTimeSlotRepository := repository.DateTimeSlot
+	timeSlotRepository := repository.TimeSlot
+	reservationLogic := logic.NewReservationLogic(reservationRepository, dateTimeSlotRepository)
 	reservationHandler := handler.NewReservationHandler(reservationLogic)
+	dateTimeSlotLogic := logic.NewDateTimeslotLogic(dateTimeSlotRepository)
+	dateTimeSlotHandler := handler.NewDateTimeslotHandler(dateTimeSlotLogic)
+	timeSlotLogic := logic.NewTimeSlotLogic(timeSlotRepository)
+	timeSlotHandler := handler.NewTimeSlotHandler(timeSlotLogic)
 
 	engine.NoRoute(func(c *gin.Context) {
 		if !strings.HasPrefix(c.Request.RequestURI, "/api/") {
@@ -88,8 +94,15 @@ func Init() {
 	})
 	//Routes are defined here
 	api.GET("/health", healthCheck)
-	api.GET("/reservation", reservationHandler.GetAllReservations)
-	api.POST("/reservation", reservationHandler.CreateReservation)
+	api.GET("/reservations", reservationHandler.GetAllReservations)
+	// Example: reservations/2022-04-08
+	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
+	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
+	// Example: dateTimeSlots/dateId/2022-04-08
+	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
+	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
+	fmt.Println(engine.Run(fmt.Sprintf(":%s", config.GetString("http.port"))))
+	api.POST("/reservations", reservationHandler.CreateReservation)
 	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
 }
 

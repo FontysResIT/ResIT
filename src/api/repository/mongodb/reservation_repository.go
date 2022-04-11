@@ -2,8 +2,8 @@ package mongodb
 
 import (
 	"context"
-
-	log "github.com/sirupsen/logrus"
+	"fmt"
+	"log"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,8 +28,39 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err = result.All(context.TODO(), &reservations); err != nil {
-		log.Error(err)
+	for result.Next(context.TODO()) {
+
+		// create a value into which the single document can be decoded
+		var elem model.Reservation
+		err := result.Decode(&elem)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		reservations = append(reservations, elem)
+	}
+	fmt.Println(reservations)
+	// var m = &model.Reservation{Id: episodes[0].name}
+	return reservations
+}
+
+func (repo *MongoDBReservation) AllByDate(dtsId []primitive.ObjectID) []model.Reservation {
+	var reservations []model.Reservation
+	collection := repo.db.Collection("reservations")
+	log.Println(dtsId)
+	filter := bson.M{"dts_id": bson.M{"$in": dtsId}}
+	result, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for result.Next(context.TODO()) {
+		var elem model.Reservation
+		err := result.Decode(&elem)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		reservations = append(reservations, elem)
 	}
 	return reservations
 }
@@ -39,7 +70,7 @@ func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Res
 	result, err := collection.InsertOne(context.TODO(), reservation)
 	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
-		log.Error(err)
+		log.Fatal(err)
 	}
 	return reservation, err
 }
