@@ -5,13 +5,12 @@ import (
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type IReservation interface {
 	All() []model.Reservation
 	AllByDate([]primitive.ObjectID) []model.Reservation
-	Create(model.Reservation) *mongo.InsertOneResult
+	Create(model.Reservation) (model.Reservation, error)
 }
 
 type ITimeSlot interface {

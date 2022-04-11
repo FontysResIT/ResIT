@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -20,15 +19,23 @@ type DateTimeSlotRepository struct {
 	mock.Mock
 }
 
+type MockProducer struct {
+	mock.Mock
+}
+
+func (mock *MockProducer) CreateReservation(reservation model.Reservation) {
+	mock.Called()
+
+}
+
 func (mock *ReservationRepository) All() []model.Reservation {
 	args := mock.Called()
 	result := args.Get(0)
 	return result.([]model.Reservation)
 }
-func (mock *ReservationRepository) Create(reservation model.Reservation) *mongo.InsertOneResult {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.(*mongo.InsertOneResult)
+func (mock *ReservationRepository) Create(reservation model.Reservation) (model.Reservation, error) {
+	mock.Called()
+	return reservation, nil
 }
 func (mock *ReservationRepository) AllByDate([]primitive.ObjectID) []model.Reservation {
 	args := mock.Called()
@@ -71,7 +78,7 @@ func TestCreate(t *testing.T) {
 	mockRepo := new(ReservationRepository)
 	mockRepo2 := new(DateTimeSlotRepository)
 
-	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	userProfile := model.Reservation{FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 	insertOneResult := new(mongo.InsertOneResult)
 	insertOneResult.InsertedID = userProfile.Id
 	// Setup expectations
@@ -79,10 +86,10 @@ func TestCreate(t *testing.T) {
 
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 
-	result := testService.CreateReservation(userProfile)
-	fmt.Println(result) //Mock Assertion: Behavioral
+	result, err := testService.CreateReservation(userProfile)
 	mockRepo.AssertExpectations(t)
 
 	//Data Assertion
-	assert.Equal(t, userProfile.Id, result.InsertedID)
+	assert.Equal(t, userProfile.Id, result.Id)
+	assert.Equal(t, err, nil)
 }
