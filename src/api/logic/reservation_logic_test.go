@@ -3,6 +3,7 @@ package logic
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -12,28 +13,54 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type MockRepository struct {
+type ReservationRepository struct {
+	mock.Mock
+}
+type DateTimeSlotRepository struct {
 	mock.Mock
 }
 
-func (mock *MockRepository) All() []model.Reservation {
+func (mock *ReservationRepository) All() []model.Reservation {
 	args := mock.Called()
 	result := args.Get(0)
 	return result.([]model.Reservation)
 }
-func (mock *MockRepository) Create(reservation model.Reservation) *mongo.InsertOneResult {
+func (mock *ReservationRepository) Create(reservation model.Reservation) *mongo.InsertOneResult {
 	args := mock.Called()
 	result := args.Get(0)
 	return result.(*mongo.InsertOneResult)
 }
+func (mock *ReservationRepository) AllByDate([]primitive.ObjectID) []model.Reservation {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.([]model.Reservation)
+}
+
+func (mock *DateTimeSlotRepository) All() []model.DateTimeSlot {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.([]model.DateTimeSlot)
+}
+func (mock *DateTimeSlotRepository) AllByDate(param time.Time) []model.DateTimeSlot {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.([]model.DateTimeSlot)
+}
+func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []primitive.ObjectID {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.([]primitive.ObjectID)
+}
+
 func TestGetAll(t *testing.T) {
-	mockRepo := new(MockRepository)
+	mockRepo := new(ReservationRepository)
+	mockRepo2 := new(DateTimeSlotRepository)
 
 	userProfile := model.Reservation{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 
 	mockRepo.On("All").Return([]model.Reservation{userProfile})
 
-	testService := NewReservationLogic(mockRepo)
+	testService := NewReservationLogic(mockRepo, mockRepo2)
 
 	testService.GetAllReservations()
 
@@ -41,7 +68,8 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestCreate(t *testing.T) {
-	mockRepo := new(MockRepository)
+	mockRepo := new(ReservationRepository)
+	mockRepo2 := new(DateTimeSlotRepository)
 
 	userProfile := model.Reservation{Id: primitive.ObjectID{}, FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 	insertOneResult := new(mongo.InsertOneResult)
@@ -49,7 +77,7 @@ func TestCreate(t *testing.T) {
 	// Setup expectations
 	mockRepo.On("Create").Return(insertOneResult)
 
-	testService := NewReservationLogic(mockRepo)
+	testService := NewReservationLogic(mockRepo, mockRepo2)
 
 	result := testService.CreateReservation(userProfile)
 	fmt.Println(result) //Mock Assertion: Behavioral
