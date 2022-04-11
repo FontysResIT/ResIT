@@ -2,7 +2,6 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 
 	log "github.com/sirupsen/logrus"
 
@@ -27,16 +26,10 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Error(err)
+		log.Fatal(err)
 	}
-	for result.Next(context.TODO()) {
-		var elem model.Reservation
-		err := result.Decode(&elem)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		reservations = append(reservations, elem)
+	if err = result.All(context.TODO(), &reservations); err != nil {
+		log.Error(err)
 	}
 	return reservations
 }
@@ -44,7 +37,6 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Reservation, error) {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.InsertOne(context.TODO(), reservation)
-	fmt.Println(result)
 	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
 		log.Error(err)
