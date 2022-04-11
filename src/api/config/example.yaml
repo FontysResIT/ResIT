@@ -1,0 +1,7 @@
+http:
+  port: 8080
+mongo:
+  url: "test.mongodb.net/"
+  database: "testDB"
+  username: "test"
+  password: "test"

@@ -1,9 +1,9 @@
 package config
 
 import (
-	"fmt"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -13,6 +13,7 @@ func Init(env string) {
 	var err error
 	config = viper.New()
 	config.SetDefault("http.port", "8080")
+	config.SetDefault("environment", env)
 	config.SetConfigType("yaml")
 	config.SetConfigName(env)
 	config.AddConfigPath("../config/")
@@ -23,7 +24,7 @@ func Init(env string) {
 
 	err = config.ReadInConfig()
 	if err != nil {
-		fmt.Println("Could not parse configuration file, using environment variables")
+		log.Warning("Could not parse configuration file, using environment variables")
 	}
 }
 
