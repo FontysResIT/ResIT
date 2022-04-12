@@ -46,8 +46,13 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 func (repo *MongoDBReservation) AllByDate(dtsId []primitive.ObjectID) []model.Reservation {
 	var reservations []model.Reservation
 	collection := repo.db.Collection("reservations")
-	log.Println(dtsId)
-	filter := bson.M{"dts_id": bson.M{"$in": dtsId}}
+	log.Println("DTSID LENGHT", len(dtsId))
+	var filter = bson.M{}
+	if len(dtsId) < 1 {
+		filter = bson.M{"dts_id": 0}
+	} else {
+		filter = bson.M{"dts_id": bson.M{"$in": dtsId}}
+	}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Error(err)
