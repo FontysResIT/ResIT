@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/RealSnowKid/ResIT/config"
 	"github.com/RealSnowKid/ResIT/docs"
@@ -12,7 +13,6 @@ import (
 	"github.com/RealSnowKid/ResIT/router/http/handler"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -65,6 +65,12 @@ import (
 func Init() {
 	config := config.GetConfig()
 	engine := gin.Default()
+	s := &http.Server{
+		Addr:         fmt.Sprintf("%s:%s", getIp(config), getPort(config)),
+		Handler:      engine,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 20 * time.Second,
+	}
 	engine.SetTrustedProxies([]string{})
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
@@ -103,7 +109,8 @@ func Init() {
 	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	api.POST("/reservations", reservationHandler.CreateReservation)
-	log.Info(engine.Run(fmt.Sprintf("%s:%s", getIp(config), getPort(config))))
+	fmt.Printf("[Server] listening on port %s \n", getPort(config))
+	s.ListenAndServe()
 }
 
 // @Description API Healthcheck
