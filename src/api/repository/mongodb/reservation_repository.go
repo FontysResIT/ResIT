@@ -3,7 +3,8 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
