@@ -68,8 +68,9 @@ func Init() {
 	s := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", getIp(config), getPort(config)),
 		Handler:      engine,
-		ReadTimeout:  30 * time.Second,
-		WriteTimeout: 20 * time.Second,
+		ReadTimeout:  60 * time.Second,
+		WriteTimeout: 100 * time.Second,
+		IdleTimeout:  1200 * time.Second,
 	}
 	engine.SetTrustedProxies([]string{})
 	engine.Use(gin.Recovery())
