@@ -20,7 +20,7 @@ type KafkaProducer struct{}
 func NewProducer(config *viper.Viper) *KafkaProducer {
 	mechanism, err := scram.Mechanism(scram.SHA256, config.GetString("kafka.username"), config.GetString("kafka.password"))
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	writer = kafka.NewWriter(kafka.WriterConfig{
 		Brokers:     config.GetStringSlice("kafka.brokers"),

@@ -3,9 +3,9 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/RealSnowKid/ResIT/model"
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -25,7 +25,7 @@ func (repo *MongoDBTimeSlot) All() []model.TimeSlot {
 	collection := repo.db.Collection("timeslots")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
 

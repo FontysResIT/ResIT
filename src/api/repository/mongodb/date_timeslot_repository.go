@@ -3,8 +3,9 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -27,7 +28,7 @@ func (repo *MongoDBDateTimeslot) All() []model.DateTimeSlot {
 	collection := repo.db.Collection("date_timeslot")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
 		// create a value into which the single document can be decoded
@@ -49,7 +50,7 @@ func (repo *MongoDBDateTimeslot) AllByDate(param time.Time) []model.DateTimeSlot
 	filter := bson.D{{Key: "date", Value: param}}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
 
@@ -71,7 +72,7 @@ func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []primitive.ObjectID 
 	filter := bson.D{{Key: "date", Value: param}}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	log.Println(result)
 	for result.Next(context.TODO()) {
