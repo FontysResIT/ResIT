@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
-	"strconv"
 	"time"
 
 	"github.com/RealSnowKid/ResIT/model"
@@ -39,10 +38,11 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 }
 
 func (*KafkaProducer) CreateReservation(reservation model.Reservation) {
+	key, _ := reservation.Id.MarshalJSON()
 	reservationJson, _ := json.Marshal(reservation)
 	err := writer.WriteMessages(context.TODO(), kafka.Message{
-		Key:   []byte(strconv.Itoa(1)),
-		Value: []byte(reservationJson),
+		Key:   key,
+		Value: reservationJson,
 	})
 	if err != nil {
 		log.Error(err)
