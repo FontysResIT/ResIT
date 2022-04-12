@@ -27,8 +27,11 @@ func NewReservationHandler(logic logic.IReservationLogic) *handler {
 // @Success 200 {array} []model.Reservation "ok"
 // @Router /reservation [get]
 func (*handler) GetAllReservations(c *gin.Context) {
-	var reservation = _logic.GetAllReservations()
-	c.JSON(http.StatusOK, reservation)
+	var reservations = _logic.GetAllReservations()
+	if reservations == nil {
+		reservations = make([]model.Reservation, 0)
+	}
+	c.JSON(http.StatusOK, reservations)
 }
 
 func (*handler) GetAllReservationsByDate(c *gin.Context) {
@@ -45,6 +48,9 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 	date := time.Date(intDateParams[0], time.Month(intDateParams[1]), intDateParams[2], 0, 0, 0, 0, time.Local)
 	log.Println("DATE", date)
 	var reservations = _logic.GetAllReservationsByDate(date)
+	if reservations == nil {
+		reservations = make([]model.Reservation, 0)
+	}
 	c.JSON(http.StatusOK, reservations)
 }
 
