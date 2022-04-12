@@ -37,7 +37,8 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 	for _, v := range dateParams {
 		j, err := strconv.Atoi(v)
 		if err != nil {
-			panic(err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
 		intDateParams = append(intDateParams, j)
 	}

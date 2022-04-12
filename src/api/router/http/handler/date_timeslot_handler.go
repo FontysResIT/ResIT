@@ -42,7 +42,8 @@ func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 		for _, v := range params {
 			j, err := strconv.Atoi(v)
 			if err != nil {
-				panic(err)
+				c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
 			}
 			dates = append(dates, j)
 		}
@@ -57,7 +58,8 @@ func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 		for _, v := range params {
 			j, err := strconv.Atoi(v)
 			if err != nil {
-				panic(err)
+				c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
 			}
 			dates = append(dates, j)
 		}
