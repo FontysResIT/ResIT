@@ -105,9 +105,9 @@ func Init() {
 	api.GET("/reservations", reservationHandler.GetAllReservations)
 	// Example: reservations/2022-04-08
 	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
-	api.GET("/dateTimeSlots", dateTimeSlotHandler.GetAllDateTimeslots)
-	// Example: dateTimeSlots/dateId/2022-04-08
-	api.GET("/dateTimeSlots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
+	api.GET("/datetimeslots", dateTimeSlotHandler.GetAllDateTimeslots)
+	// Example: datetimeslots/dateId/2022-04-08
+	api.GET("/datetimeslots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	api.POST("/reservations", reservationHandler.CreateReservation)
 	fmt.Printf("[Server] listening on port %s \n", getPort(config))
