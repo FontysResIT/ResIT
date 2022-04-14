@@ -45,8 +45,8 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 		}
 		intDateParams = append(intDateParams, j)
 	}
-	date := time.Date(intDateParams[0], time.Month(intDateParams[1]), intDateParams[2], 0, 0, 0, 0, time.Local)
-	log.Println("DATE", date)
+	date := time.Date(intDateParams[0], time.Month(intDateParams[1]), intDateParams[2], 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60))
+	log.Println("RES DATE", date)
 	var reservations = _logic.GetAllReservationsByDate(date)
 	if reservations == nil {
 		reservations = make([]model.Reservation, 0)

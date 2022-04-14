@@ -46,4 +46,4 @@ jobs:
       - name: Run coverage
         run: go test -race -covermode=atomic -coverprofile=coverage.out -v ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        run: bash <(curl -s https://codecov.io/bash)

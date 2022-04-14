@@ -57,7 +57,7 @@ func (repo *MongoDBDateTimeslot) AllByDate(param time.Time) []model.DateTimeSlot
 		var elem model.DateTimeSlot
 		err := result.Decode(&elem)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 
 		dTSlots = append(dTSlots, elem)
@@ -80,7 +80,7 @@ func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []primitive.ObjectID 
 		var elem model.DateTimeSlot
 		err := result.Decode(&elem)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 		dTSlots = append(dTSlots, elem.Id)
 	}
