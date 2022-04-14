@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/RealSnowKid/ResIT/config"
 	"github.com/RealSnowKid/ResIT/docs"
@@ -65,13 +64,6 @@ import (
 func Init() {
 	config := config.GetConfig()
 	engine := gin.Default()
-	s := &http.Server{
-		Addr:         fmt.Sprintf("%s:%s", getIp(config), getPort(config)),
-		Handler:      engine,
-		ReadTimeout:  60 * time.Second,
-		WriteTimeout: 100 * time.Second,
-		IdleTimeout:  1200 * time.Second,
-	}
 	engine.SetTrustedProxies([]string{})
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
@@ -111,7 +103,7 @@ func Init() {
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	api.POST("/reservations", reservationHandler.CreateReservation)
 	fmt.Printf("[Server] listening on port %s \n", getPort(config))
-	s.ListenAndServe()
+	engine.Run(fmt.Sprintf("%s:%s", config.GetString("host"), getPort(config)))
 }
 
 // @Description API Healthcheck
@@ -131,14 +123,6 @@ func getPort(config *viper.Viper) string {
 		port = config.GetString("http.port")
 	}
 	return port
-}
-
-func getIp(config *viper.Viper) string {
-	var ip string
-	if config.GetString("environment") == "development" {
-		ip = "127.0.0.1"
-	}
-	return ip
 }
 
 func corsMiddleware() gin.HandlerFunc {
