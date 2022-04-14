@@ -3,7 +3,8 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -26,7 +27,7 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
 
@@ -45,11 +46,16 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 func (repo *MongoDBReservation) AllByDate(dtsId []primitive.ObjectID) []model.Reservation {
 	var reservations []model.Reservation
 	collection := repo.db.Collection("reservations")
-	log.Println(dtsId)
-	filter := bson.M{"dts_id": bson.M{"$in": dtsId}}
+	log.Println("DTSID LENGHT", len(dtsId))
+	var filter = bson.M{}
+	if len(dtsId) < 1 {
+		filter = bson.M{"dts_id": 0}
+	} else {
+		filter = bson.M{"dts_id": bson.M{"$in": dtsId}}
+	}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	for result.Next(context.TODO()) {
 		var elem model.Reservation
@@ -68,7 +74,7 @@ func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Res
 	result, err := collection.InsertOne(context.TODO(), reservation)
 	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	return reservation, err
 }

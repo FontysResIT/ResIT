@@ -3,9 +3,10 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/url"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/RealSnowKid/ResIT/config"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,7 +30,7 @@ func Init() {
 	defer cancel()
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	mongoDatabase = client.Database(config.GetString("mongo.database"))
 

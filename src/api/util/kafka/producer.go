@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
-	"strconv"
 	"time"
 
 	"github.com/RealSnowKid/ResIT/model"
@@ -21,7 +20,7 @@ type KafkaProducer struct{}
 func NewProducer(config *viper.Viper) *KafkaProducer {
 	mechanism, err := scram.Mechanism(scram.SHA256, config.GetString("kafka.username"), config.GetString("kafka.password"))
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	writer = kafka.NewWriter(kafka.WriterConfig{
 		Brokers:     config.GetStringSlice("kafka.brokers"),
@@ -39,10 +38,11 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 }
 
 func (*KafkaProducer) CreateReservation(reservation model.Reservation) {
+	key, _ := reservation.Id.MarshalJSON()
 	reservationJson, _ := json.Marshal(reservation)
 	err := writer.WriteMessages(context.TODO(), kafka.Message{
-		Key:   []byte(strconv.Itoa(1)),
-		Value: []byte(reservationJson),
+		Key:   key,
+		Value: reservationJson,
 	})
 	if err != nil {
 		log.Error(err)
