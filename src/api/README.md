@@ -1,3 +1,5 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/FontysResIT/ResIt/CI/development?style=for-the-badge)
+![Codecov branch](https://img.shields.io/codecov/c/github/FontysResIT/ResIT/development?style=for-the-badge)
 # ResIT API
 
 <a href="https://github.com/RealSnowKid/ResIT">
