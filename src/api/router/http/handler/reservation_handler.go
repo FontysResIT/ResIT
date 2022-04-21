@@ -25,7 +25,7 @@ func NewReservationHandler(logic logic.IReservationLogic) *handler {
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} []model.Reservation "ok"
-// @Router /reservation [get]
+// @Router /reservations [get]
 func (*handler) GetAllReservations(c *gin.Context) {
 	var reservations = _logic.GetAllReservations()
 	if reservations == nil {
@@ -34,6 +34,12 @@ func (*handler) GetAllReservations(c *gin.Context) {
 	c.JSON(http.StatusOK, reservations)
 }
 
+// @Description Get all reservations by date
+// @Accept  json
+// @Produce  json
+// @Param	date	path	string	true	"reservations by date"
+// @Success 200 {array} []model.Reservation "ok"
+// @Router /reservations/{date} [get]
 func (*handler) GetAllReservationsByDate(c *gin.Context) {
 	dateParams := strings.Split(c.Param("date"), "-")
 	var intDateParams = []int{}
@@ -58,7 +64,7 @@ func (*handler) GetAllReservationsByDate(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} model.Reservation "ok"
-// @Router /reservation [post]
+// @Router /reservations [post]
 func (*handler) CreateReservation(c *gin.Context) {
 	var input model.Reservation
 	if err := c.ShouldBindJSON(&input); err != nil {

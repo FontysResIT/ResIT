@@ -24,12 +24,20 @@ func NewDateTimeslotHandler(logic logic.IDateTimeslotLogic) *handler {
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} []model.DateTimeSlot "ok"
-// @Router /dateTimeSlots [get]
+// @Router /datetimeslots [get]
 func (*handler) GetAllDateTimeslots(c *gin.Context) {
 	var dateTimeSlot = _DTSlogic.GetAllDateTimeslots()
 	c.JSON(http.StatusOK, dateTimeSlot)
 }
 
+// @Description Get all date time slots by a parameter
+// @Accept  json
+// @Produce  json
+// @Param	query	path	string	false	"search date time slots by a query (date, dateId)"
+// @Param	param	path	string	false	"search date time slots by a paramteter (e.g. 2022-04-07)"
+// @Success 200 {array} []model.DateTimeSlot "ok"
+// @Success	200	{array}	int	"ok"
+// @Router /datetimeslots/{query}/{param} [get]
 func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 	query := c.Param("query")
 	param := c.Param("param")
