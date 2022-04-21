@@ -19,10 +19,10 @@ type MockProducer struct {
 	mock.Mock
 }
 
-func (mock *MockProducer) CreateReservation(reservation model.Reservation) {
-	mock.Called()
+// func (mock *MockProducer) CreateReservation(reservation model.Reservation) {
+// 	mock.Called()
 
-}
+// }
 
 func (mock *ReservationRepository) All() []model.Reservation {
 	args := mock.Called()

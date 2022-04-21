@@ -101,6 +101,7 @@ func Init() {
 	// Example: datetimeslots/dateId/2022-04-08
 	api.GET("/datetimeslots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
+	api.POST("/timeslots", timeSlotHandler.CreateTimeSlot)
 	api.POST("/reservations", reservationHandler.CreateReservation)
 	fmt.Printf("[Server] listening on port %s \n", getPort(config))
 	engine.Run(fmt.Sprintf("%s:%s", config.GetString("host"), getPort(config)))
