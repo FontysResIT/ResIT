@@ -11,7 +11,7 @@ import (
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
 	GetDateTimeslotsByDate(time.Time) []model.DateTimeSlot
-	GetDateTimeslotByDate(time.Time) []primitive.ObjectID
+	GetDateTimeslotsIdByDate(time.Time) []primitive.ObjectID
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -31,6 +31,6 @@ func (*DTlogic) GetDateTimeslotsByDate(param time.Time) []model.DateTimeSlot {
 	return _repositoryDT.AllByDate(param)
 }
 
-func (*DTlogic) GetDateTimeslotByDate(param time.Time) []primitive.ObjectID {
+func (*DTlogic) GetDateTimeslotsIdByDate(param time.Time) []primitive.ObjectID {
 	return _repositoryDT.IdByDate(param)
 }

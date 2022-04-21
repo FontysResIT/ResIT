@@ -15,10 +15,6 @@ import (
 type ReservationRepository struct {
 	mock.Mock
 }
-type DateTimeSlotRepository struct {
-	mock.Mock
-}
-
 type MockProducer struct {
 	mock.Mock
 }
@@ -41,22 +37,6 @@ func (mock *ReservationRepository) AllByDate([]primitive.ObjectID) []model.Reser
 	args := mock.Called()
 	result := args.Get(0)
 	return result.([]model.Reservation)
-}
-
-func (mock *DateTimeSlotRepository) All() []model.DateTimeSlot {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]model.DateTimeSlot)
-}
-func (mock *DateTimeSlotRepository) AllByDate(param time.Time) []model.DateTimeSlot {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]model.DateTimeSlot)
-}
-func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []primitive.ObjectID {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]primitive.ObjectID)
 }
 
 func TestGetAll(t *testing.T) {
@@ -92,4 +72,22 @@ func TestCreate(t *testing.T) {
 	//Data Assertion
 	assert.Equal(t, userProfile.Id, result.Id)
 	assert.Equal(t, err, nil)
+}
+
+func TestGetAllRByDate(t *testing.T) {
+	mockRepo := new(ReservationRepository)
+	mockRepo2 := new(DateTimeSlotRepository)
+
+	testDTSId := primitive.NewObjectID()
+	testRes := model.Reservation{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: testDTSId, Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	testDTS := model.DateTimeSlot{Id: testDTSId, Date: time.Date(2022, 04, 21, 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60)), Day: time.Thursday, TimeSlot: model.TimeSlot{}}
+
+	mockRepo.On("AllByDate").Return([]model.Reservation{testRes})
+	mockRepo2.On("IdByDate").Return([]primitive.ObjectID{testDTSId})
+
+	testService := NewReservationLogic(mockRepo, mockRepo2)
+
+	testService.GetAllReservationsByDate(testDTS.Date)
+
+	mockRepo.AssertExpectations(t)
 }
