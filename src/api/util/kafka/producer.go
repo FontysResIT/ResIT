@@ -14,6 +14,7 @@ import (
 )
 
 var writer *kafka.Writer
+var topicPrefix string
 
 type KafkaProducer struct{}
 
@@ -24,7 +25,6 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 	}
 	writer = kafka.NewWriter(kafka.WriterConfig{
 		Brokers:     config.GetStringSlice("kafka.brokers"),
-		Topic:       config.GetString("kafka.topic_prefix") + config.GetString("kafka.topic"),
 		Logger:      kafka.LoggerFunc(log.Infof),
 		ErrorLogger: kafka.LoggerFunc(log.Errorf),
 		Dialer: &kafka.Dialer{
@@ -34,6 +34,7 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 			SASLMechanism: mechanism,
 		},
 	})
+	topicPrefix = config.GetString("kafka.topic_prefix")
 	return &KafkaProducer{}
 }
 
@@ -41,6 +42,7 @@ func (*KafkaProducer) CreateReservation(reservation model.Reservation) {
 	key, _ := reservation.Id.MarshalJSON()
 	reservationJson, _ := json.Marshal(reservation)
 	err := writer.WriteMessages(context.TODO(), kafka.Message{
+		Topic: topicPrefix + "reservationapi.reservation.create",
 		Key:   key,
 		Value: reservationJson,
 	})
