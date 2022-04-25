@@ -5,13 +5,13 @@ import (
 
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/RealSnowKid/ResIT/repository"
-	"github.com/RealSnowKid/ResIT/util"
 )
 
 type IReservationLogic interface {
 	GetAllReservations() []model.Reservation
 	GetAllReservationsByDate(time.Time) []model.Reservation
 	CreateReservation(model.Reservation) (model.Reservation, error)
+	CancelReservation(string) (model.Reservation, error)
 }
 
 var _repository repository.IReservation
@@ -35,9 +35,17 @@ func (*logic) GetAllReservationsByDate(date time.Time) []model.Reservation {
 
 func (*logic) CreateReservation(reservation model.Reservation) (model.Reservation, error) {
 	result, err := _repository.Create(reservation)
-	if err == nil {
-		go util.CreateReservation(result)
-	}
+	// if err == nil {
+	// 	go util.CreateReservation(result)
+	// }
 	return result, err
 
+}
+
+func (*logic) CancelReservation(id string) (model.Reservation, error) {
+	result, err := _repository.Cancel(id)
+	// if err == nil {
+	// 	go util.CancelReservation(result)
+	// }
+	return result, err
 }

@@ -48,3 +48,15 @@ func (*KafkaProducer) CreateReservation(reservation model.Reservation) {
 		log.Error(err)
 	}
 }
+
+func (*KafkaProducer) CancelReservation(reservation model.Reservation) {
+	key, _ := reservation.Id.MarshalJSON()
+	reservationJson, _ := json.Marshal(reservation)
+	err := writer.WriteMessages(context.TODO(), kafka.Message{
+		Key:   key,
+		Value: reservationJson,
+	})
+	if err != nil {
+		log.Error(err)
+	}
+}

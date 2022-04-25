@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoDBReservation struct {
@@ -43,7 +44,7 @@ func (repo *MongoDBReservation) All() []model.Reservation {
 	return reservations
 }
 
-func (repo *MongoDBReservation) AllByDate(dtsId []primitive.ObjectID) []model.Reservation {
+func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
 	var reservations []model.Reservation
 	collection := repo.db.Collection("reservations")
 	log.Println("DTSID LENGHT", len(dtsId))
@@ -77,4 +78,28 @@ func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Res
 		log.Error(err)
 	}
 	return reservation, err
+}
+
+func (repo *MongoDBReservation) Cancel(id string) (model.Reservation, error) {
+	var err error
+
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Error(err)
+	}
+
+	collection := repo.db.Collection("reservations")
+
+	result := collection.FindOneAndUpdate(context.TODO(),
+		bson.M{"_id": objID}, bson.D{
+			{"$set", bson.D{{"is_cancelled", true}}},
+		}, options.MergeFindOneAndUpdateOptions(&options.FindOneAndUpdateOptions{ReturnDocument: options.FindOneAndUpdate().ReturnDocument}))
+
+	log.Println(result)
+	if result.Err() != nil {
+		log.Error(result.Err().Error())
+	}
+	var res model.Reservation
+	err = result.Decode(&res)
+	return res, err
 }
