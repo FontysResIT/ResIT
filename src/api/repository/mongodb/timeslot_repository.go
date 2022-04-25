@@ -7,6 +7,7 @@ import (
 	"github.com/RealSnowKid/ResIT/model"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -40,4 +41,17 @@ func (repo *MongoDBTimeSlot) All() []model.TimeSlot {
 	}
 
 	return timeSlots
+}
+
+func (repo *MongoDBTimeSlot) Create(timeslot model.TimeSlot) (model.TimeSlot, error) {
+	collection := repo.db.Collection("timeslots")
+	timeslot.Id = primitive.NewObjectID()
+	result, err := collection.InsertOne(context.TODO(), timeslot)
+	// timeslot.Id = result.InsertedID.(primitive.ObjectID)
+	log.Println("Inserted ID", result.InsertedID)
+	log.Println("Timeslot ID:", timeslot.Id)
+	if err != nil {
+		log.Error(err)
+	}
+	return timeslot, err
 }

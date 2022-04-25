@@ -41,7 +41,6 @@ func (*handler) GetAllDateTimeslots(c *gin.Context) {
 func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 	query := c.Param("query")
 	param := c.Param("param")
-	log.Println("Query:", query)
 	switch query {
 	case "date":
 		var params = strings.Split(strings.Split(param, "/")[1], "-")
