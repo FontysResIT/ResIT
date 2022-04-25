@@ -78,3 +78,24 @@ func (*handler) CreateReservation(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, reservation)
 }
+
+// @Description Cancel reservation
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.Reservation "ok"
+// @Router /reservation/{id} [put]
+func (*handler) UpdateReservation(c *gin.Context) {
+	id := c.Param("id")
+	query := c.Param("query")
+	switch query {
+	case "/cancel":
+		result, err := _logic.CancelReservation(id)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			
+			return
+		}
+		
+	c.JSON(http.StatusOK, result)
+	}
+}

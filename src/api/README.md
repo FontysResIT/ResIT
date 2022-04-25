@@ -1,4 +1,4 @@
-# ResIT API
+# ResIT Reservation API
 
 <a href="https://github.com/RealSnowKid/ResIT">
     <img src="https://raw.githubusercontent.com/RealSnowKid/ResIT/master/img/logo_horizontal.png" alt="Logo" width="170" height="55">

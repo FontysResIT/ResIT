@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/stretchr/testify/assert"
@@ -19,10 +18,7 @@ type MockProducer struct {
 	mock.Mock
 }
 
-// func (mock *MockProducer) CreateReservation(reservation model.Reservation) {
-// 	mock.Called()
-
-// }
+var userProfile = model.Reservation{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 
 func (mock *ReservationRepository) All() []model.Reservation {
 	args := mock.Called()
@@ -33,10 +29,17 @@ func (mock *ReservationRepository) Create(reservation model.Reservation) (model.
 	mock.Called()
 	return reservation, nil
 }
-func (mock *ReservationRepository) AllByDate([]primitive.ObjectID) []model.Reservation {
+func (mock *ReservationRepository) AllByDate([]string) []model.Reservation {
 	args := mock.Called()
 	result := args.Get(0)
 	return result.([]model.Reservation)
+}
+
+func (mock *ReservationRepository) Cancel(id string) (model.Reservation, error) {
+	mock.Called()
+	reservation := userProfile
+	reservation.IsCancelled = true
+	return reservation, nil
 }
 
 func TestGetAll(t *testing.T) {
@@ -59,10 +62,9 @@ func TestCreate(t *testing.T) {
 	mockRepo2 := new(DateTimeSlotRepository)
 
 	userProfile := model.Reservation{FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
-	insertOneResult := new(mongo.InsertOneResult)
-	insertOneResult.InsertedID = userProfile.Id
+
 	// Setup expectations
-	mockRepo.On("Create").Return(insertOneResult)
+	mockRepo.On("Create").Return(userProfile)
 
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 
@@ -74,6 +76,23 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, err, nil)
 }
 
+func TestCancel(t *testing.T) {
+	mockRepo := new(ReservationRepository)
+	mockRepo2 := new(DateTimeSlotRepository)
+	// Setup expectations
+	mockRepo.On("Cancel").Return(userProfile)
+
+	testService := NewReservationLogic(mockRepo, mockRepo2)
+
+	result, err := testService.CancelReservation(userProfile.Id.Hex())
+	mockRepo.AssertExpectations(t)
+
+	//Data Assertion
+	assert.Equal(t, userProfile.Id, result.Id)
+	assert.NotEqual(t, userProfile.IsCancelled, result.IsCancelled)
+	assert.Equal(t, result.IsCancelled, true)
+	assert.Equal(t, err, nil)
+}
 func TestGetAllRByDate(t *testing.T) {
 	mockRepo := new(ReservationRepository)
 	mockRepo2 := new(DateTimeSlotRepository)
@@ -83,7 +102,7 @@ func TestGetAllRByDate(t *testing.T) {
 	testDTS := model.DateTimeSlot{Id: testDTSId, Date: time.Date(2022, 04, 21, 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60)), Day: time.Thursday, TimeSlot: model.TimeSlot{}}
 
 	mockRepo.On("AllByDate").Return([]model.Reservation{testRes})
-	mockRepo2.On("IdByDate").Return([]primitive.ObjectID{testDTSId})
+	mockRepo2.On("IdByDate").Return([]string{})
 
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 

@@ -5,13 +5,12 @@ import (
 
 	"github.com/RealSnowKid/ResIT/model"
 	"github.com/RealSnowKid/ResIT/repository"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
 	GetDateTimeslotsByDate(time.Time) []model.DateTimeSlot
-	GetDateTimeslotsIdByDate(time.Time) []primitive.ObjectID
+	GetDateTimeslotsIdByDate(time.Time) []string
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -31,6 +30,6 @@ func (*DTlogic) GetDateTimeslotsByDate(param time.Time) []model.DateTimeSlot {
 	return _repositoryDT.AllByDate(param)
 }
 
-func (*DTlogic) GetDateTimeslotsIdByDate(param time.Time) []primitive.ObjectID {
+func (*DTlogic) GetDateTimeslotsIdByDate(param time.Time) []string {
 	return _repositoryDT.IdByDate(param)
 }

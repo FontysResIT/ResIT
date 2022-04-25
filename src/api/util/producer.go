@@ -9,6 +9,7 @@ import (
 
 type IProducer interface {
 	CreateReservation(model.Reservation)
+	CancelReservation(model.Reservation)
 }
 
 var _producers []IProducer
@@ -24,5 +25,11 @@ func InitProducers() {
 func CreateReservation(reservation model.Reservation) {
 	for _, producer := range _producers {
 		go producer.CreateReservation(reservation)
+	}
+}
+
+func CancelReservation(reservation model.Reservation) {
+	for _, producer := range _producers {
+		go producer.CancelReservation(reservation)
 	}
 }
