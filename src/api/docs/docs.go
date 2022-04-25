@@ -60,7 +60,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/reservation": {
+        "/reservations": {
             "get": {
                 "description": "Get all reservations",
                 "consumes": [

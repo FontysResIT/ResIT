@@ -15,6 +15,7 @@ type IReservation interface {
 
 type ITimeSlot interface {
 	All() []model.TimeSlot
+	Create(model.TimeSlot) (model.TimeSlot, error)
 }
 
 type IDateTimeslot interface {
