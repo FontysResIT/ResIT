@@ -35,21 +35,6 @@ func (mock *ReservationRepository) AllByDate([]string) []model.Reservation {
 	return result.([]model.Reservation)
 }
 
-func (mock *DateTimeSlotRepository) All() []model.DateTimeSlot {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]model.DateTimeSlot)
-}
-func (mock *DateTimeSlotRepository) AllByDate(param time.Time) []model.DateTimeSlot {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]model.DateTimeSlot)
-}
-func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []string {
-	args := mock.Called()
-	result := args.Get(0)
-	return result.([]string)
-}
 func (mock *ReservationRepository) Cancel(id string) (model.Reservation, error) {
 	mock.Called()
 	reservation := userProfile
@@ -117,7 +102,7 @@ func TestGetAllRByDate(t *testing.T) {
 	testDTS := model.DateTimeSlot{Id: testDTSId, Date: time.Date(2022, 04, 21, 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60)), Day: time.Thursday, TimeSlot: model.TimeSlot{}}
 
 	mockRepo.On("AllByDate").Return([]model.Reservation{testRes})
-	mockRepo2.On("IdByDate").Return([]primitive.ObjectID{testDTSId})
+	mockRepo2.On("IdByDate").Return([]string{})
 
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 

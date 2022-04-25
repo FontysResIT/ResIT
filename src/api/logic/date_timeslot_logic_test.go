@@ -24,10 +24,10 @@ func (mock *DateTimeSlotRepository) AllByDate(param time.Time) []model.DateTimeS
 	result := args.Get(0)
 	return result.([]model.DateTimeSlot)
 }
-func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []primitive.ObjectID {
+func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []string {
 	args := mock.Called()
 	result := args.Get(0)
-	return result.([]primitive.ObjectID)
+	return result.([]string)
 }
 
 func TestGetAllDateTimeSlots(t *testing.T) {
@@ -64,7 +64,7 @@ func TestAllDTSIdByDate(t *testing.T) {
 
 	date := time.Date(2022, 04, 21, 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60))
 
-	mockRepo.On("IdByDate").Return([]primitive.ObjectID{primitive.NewObjectID()})
+	mockRepo.On("IdByDate").Return([]string{})
 
 	testService := NewDateTimeslotLogic(mockRepo)
 
