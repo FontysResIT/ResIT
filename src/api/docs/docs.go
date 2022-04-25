@@ -195,6 +195,34 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a timeslot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "The timeslot to create",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TimeSlot"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/model.TimeSlot"
+                        }
+                    }
+                }
             }
         }
     },
@@ -299,7 +327,7 @@ const docTemplate = `{
                 "from_hour": {
                     "type": "integer"
                 },
-                "from_miunutes": {
+                "from_minutes": {
                     "type": "integer"
                 },
                 "id": {
@@ -308,7 +336,7 @@ const docTemplate = `{
                 "to_hour": {
                     "type": "integer"
                 },
-                "to_miunutes": {
+                "to_minutes": {
                     "type": "integer"
                 }
             }
