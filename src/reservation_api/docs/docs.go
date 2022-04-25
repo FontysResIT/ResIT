@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/datetimeslots": {
+        "/dateTimeSlots": {
             "get": {
                 "description": "Get all date time slots",
                 "consumes": [
@@ -35,42 +35,6 @@ const docTemplate = `{
                                 "items": {
                                     "$ref": "#/definitions/model.DateTimeSlot"
                                 }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/datetimeslots/{query}/{param}": {
-            "get": {
-                "description": "Get all date time slots by a parameter",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "search date time slots by a query (date, dateId)",
-                        "name": "query",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "search date time slots by a paramteter (e.g. 2022-04-07)",
-                        "name": "param",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
                             }
                         }
                     }
@@ -138,35 +102,20 @@ const docTemplate = `{
                 }
             }
         },
-        "/reservations/{date}": {
-            "get": {
-                "description": "Get all reservations by date",
+        "/reservation/{id}": {
+            "put": {
+                "description": "Cancel reservation",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "reservations by date",
-                        "name": "date",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/model.Reservation"
-                                }
-                            }
+                            "$ref": "#/definitions/model.Reservation"
                         }
                     }
                 }
@@ -192,34 +141,6 @@ const docTemplate = `{
                                     "$ref": "#/definitions/model.TimeSlot"
                                 }
                             }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a timeslot",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "The timeslot to create",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.TimeSlot"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "$ref": "#/definitions/model.TimeSlot"
                         }
                     }
                 }
@@ -327,7 +248,7 @@ const docTemplate = `{
                 "from_hour": {
                     "type": "integer"
                 },
-                "from_minutes": {
+                "from_miunutes": {
                     "type": "integer"
                 },
                 "id": {
@@ -336,7 +257,7 @@ const docTemplate = `{
                 "to_hour": {
                     "type": "integer"
                 },
-                "to_minutes": {
+                "to_miunutes": {
                     "type": "integer"
                 }
             }

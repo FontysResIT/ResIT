@@ -9,7 +9,6 @@ import (
 
 	"github.com/FontysResIT/ResIT/model"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -66,8 +65,8 @@ func (repo *MongoDBDateTimeslot) AllByDate(param time.Time) []model.DateTimeSlot
 	return dTSlots
 }
 
-func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []primitive.ObjectID {
-	var dTSlots []primitive.ObjectID
+func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []string {
+	var dTSlots []string
 	collection := repo.db.Collection("date_timeslot")
 	filter := bson.D{{Key: "date", Value: param}}
 	result, err := collection.Find(context.TODO(), filter)
@@ -82,7 +81,8 @@ func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []primitive.ObjectID 
 		if err != nil {
 			log.Println(err)
 		}
-		dTSlots = append(dTSlots, elem.Id)
+		id := elem.Id.Hex()
+		dTSlots = append(dTSlots, id)
 	}
 	return dTSlots
 }
