@@ -17,6 +17,5 @@ FROM scratch AS final
 
 COPY --from=builder /app/build build
 COPY --from=builder /app/docs docs
-COPY --from=builder /app/public public
 
 CMD ["/build"]
