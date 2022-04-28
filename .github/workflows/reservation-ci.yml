@@ -2,17 +2,13 @@ name: Reservation CI
 
 defaults:
   run:
-    working-directory: src/api
+    working-directory: src/reservation_api
 
 on:
-  push:
-    branches: [master, staging, development]
-    paths:
-      - src/api/**
   pull_request:
     branches: [master, staging, development]
     paths:
-      - src/api/**
+      - src/reservation_api/**
 
 jobs:
   build:
