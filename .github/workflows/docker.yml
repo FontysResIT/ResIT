@@ -38,5 +38,5 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:src/datetime_api"
-          tags: resit2022/config_api:latest
+          tags: resit2022/datetime_api:latest
       
