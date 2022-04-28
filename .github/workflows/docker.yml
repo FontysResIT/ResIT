@@ -21,9 +21,22 @@ jobs:
         with:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.TOKEN }}
-      - name: Build and push
+      - name: Build and push Reservation
         uses: docker/build-push-action@v2
         with:
           push: true
-          context: "{{defaultContext}}:src/api"
-          tags: resit2022/resit:latest
+          context: "{{defaultContext}}:src/reservation_api"
+          tags: resit2022/reservation:latest
+      - name: Build and push Config
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: "{{defaultContext}}:src/config_api"
+          tags: resit2022/config_api:latest
+      - name: Build and push Datetime
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: "{{defaultContext}}:src/datetime_api"
+          tags: resit2022/config_api:latest
+      
