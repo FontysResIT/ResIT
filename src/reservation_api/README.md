@@ -1,5 +1,10 @@
 # ResIT Reservation API
 
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/FontysResIT/ResIt/CI/development?style=for-the-badge)
+![Codecov branch](https://img.shields.io/codecov/c/github/FontysResIT/ResIT/development?style=for-the-badge)
+
+# ResIT API
+
 <a href="https://github.com/RealSnowKid/ResIT">
     <img src="https://raw.githubusercontent.com/RealSnowKid/ResIT/master/img/logo_horizontal.png" alt="Logo" width="170" height="55">
   </a>
