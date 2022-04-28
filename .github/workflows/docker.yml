@@ -2,7 +2,7 @@ name: Docker
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Datetime CI","Reservation CI","Config CI"]
     branches: [master]
     types:
       - completed
