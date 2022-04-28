@@ -1,4 +1,4 @@
-name: Reservation CI
+name: Config CI
 
 defaults:
   run:
