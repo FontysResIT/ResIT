@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: reservation-api
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/reservations/**
+        - id: datetime-api
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/timeslots/**,/api/datetimeslots/**
+        - id: config-api
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/config/**
