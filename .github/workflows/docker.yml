@@ -40,4 +40,10 @@ jobs:
           push: true
           context: "{{defaultContext}}:src/datetime_api"
           tags: resit2022/datetime_api:latest
+      - name: Build and push Gateway
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: "{{defaultContext}}:src/gateway"
+          tags: resit2022/gateway_api:latest
       
