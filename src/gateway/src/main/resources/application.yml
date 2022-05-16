@@ -18,13 +18,13 @@ spring:
           predicates:
             - Path=/dt/**
           filters:
-            - StripPRefix=1
+            - StripPrefix=1
         - id: config-api
           uri: http://localhost:8083
           predicates:
             - Path=/config/**
           filters:
-            - StripPRefix=1
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true
