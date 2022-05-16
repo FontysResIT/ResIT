@@ -8,19 +8,19 @@ spring:
     gateway:
       routes:
         - id: reservation-api
-          uri: http://localhost:8081
+          uri: http://reservation
           predicates:
             - Path=/r/**
           filters:
             - StripPrefix=1
         - id: datetime-api
-          uri: http://localhost:8082
+          uri: http://datetime
           predicates:
             - Path=/dt/**
           filters:
             - StripPrefix=1
         - id: config-api
-          uri: http://localhost:8083
+          uri: http://config
           predicates:
             - Path=/config/**
           filters:
