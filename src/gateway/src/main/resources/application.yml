@@ -10,12 +10,21 @@ spring:
         - id: reservation-api
           uri: http://localhost:8081
           predicates:
-            - Path=/api/reservations/**
+            - Path=/r/**
+          filters:
+            - StripPrefix=1
         - id: datetime-api
           uri: http://localhost:8082
           predicates:
-            - Path=/api/timeslots/**,/api/datetimeslots/**
+            - Path=/dt/**
+          filters:
+            - StripPRefix=1
         - id: config-api
           uri: http://localhost:8083
           predicates:
-            - Path=/api/config/**
+            - Path=/config/**
+          filters:
+            - StripPRefix=1
+      discovery:
+        locator:
+          enabled: true
