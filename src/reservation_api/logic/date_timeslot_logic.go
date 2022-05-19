@@ -5,12 +5,15 @@ import (
 
 	"github.com/FontysResIT/ResIT/model"
 	"github.com/FontysResIT/ResIT/repository"
+	log "github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type IDateTimeslotLogic interface {
 	GetAllDateTimeslots() []model.DateTimeSlot
 	GetDateTimeslotsByDate(time.Time) []model.DateTimeSlot
 	GetDateTimeslotsIdByDate(time.Time) []string
+	GetDateTimeslotById(id string) model.DateTimeSlot
 }
 
 var _repositoryDT repository.IDateTimeslot
@@ -32,4 +35,12 @@ func (*DTlogic) GetDateTimeslotsByDate(param time.Time) []model.DateTimeSlot {
 
 func (*DTlogic) GetDateTimeslotsIdByDate(param time.Time) []string {
 	return _repositoryDT.IdByDate(param)
+}
+
+func (*DTlogic) GetDateTimeslotById(id string) model.DateTimeSlot {
+	_id, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Error(err)
+	}
+	return _repositoryDT.ById(_id)
 }

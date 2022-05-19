@@ -29,7 +29,7 @@ func NewReservationHandler(logic logic.IReservationLogic) *handler {
 func (*handler) GetAllReservations(c *gin.Context) {
 	var reservations = _logic.GetAllReservations()
 	if reservations == nil {
-		reservations = make([]model.Reservation, 0)
+		reservations = make([]model.ReservationReadDTO, 0)
 	}
 	c.JSON(http.StatusOK, reservations)
 }
@@ -92,10 +92,10 @@ func (*handler) UpdateReservation(c *gin.Context) {
 		result, err := _logic.CancelReservation(id)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			
+
 			return
 		}
-		
-	c.JSON(http.StatusOK, result)
+
+		c.JSON(http.StatusOK, result)
 	}
 }

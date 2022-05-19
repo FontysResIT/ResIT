@@ -98,8 +98,9 @@ func Init() {
 	// Example: reservations/2022-04-08
 	api.GET("/reservations/:date", reservationHandler.GetAllReservationsByDate)
 	api.GET("/datetimeslots", dateTimeSlotHandler.GetAllDateTimeslots)
+	api.GET("/datetimeslots/:id", dateTimeSlotHandler.GetDateTimeslotById)
 	// Example: datetimeslots/dateId/2022-04-08
-	api.GET("/datetimeslots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
+	//api.GET("/datetimeslots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
 	api.POST("/timeslots", timeSlotHandler.CreateTimeSlot)
 	api.POST("/reservations", reservationHandler.CreateReservation)

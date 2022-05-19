@@ -5,10 +5,11 @@ import (
 
 	"github.com/FontysResIT/ResIT/model"
 	"github.com/FontysResIT/ResIT/repository"
+	"github.com/FontysResIT/ResIT/util"
 )
 
 type IReservationLogic interface {
-	GetAllReservations() []model.Reservation
+	GetAllReservations() []model.ReservationReadDTO
 	GetAllReservationsByDate(time.Time) []model.Reservation
 	CreateReservation(model.Reservation) (model.Reservation, error)
 	CancelReservation(string) (model.Reservation, error)
@@ -25,7 +26,7 @@ func NewReservationLogic(repository repository.IReservation, dtsRepository repos
 	return &logic{}
 }
 
-func (*logic) GetAllReservations() []model.Reservation {
+func (*logic) GetAllReservations() []model.ReservationReadDTO {
 	return _repository.All()
 }
 
@@ -35,9 +36,12 @@ func (*logic) GetAllReservationsByDate(date time.Time) []model.Reservation {
 
 func (*logic) CreateReservation(reservation model.Reservation) (model.Reservation, error) {
 	result, err := _repository.Create(reservation)
-	// if err == nil {
-	// 	go util.CreateReservation(result)
-	// }
+	if err == nil {
+		go func() {
+			r := _repository.GetById(result.Id)
+			util.CreateReservation(r)
+		}()
+	}
 	return result, err
 
 }

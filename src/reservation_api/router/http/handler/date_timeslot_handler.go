@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -30,6 +29,11 @@ func (*handler) GetAllDateTimeslots(c *gin.Context) {
 	c.JSON(http.StatusOK, dateTimeSlot)
 }
 
+func (*handler) GetDateTimeslotById(c *gin.Context) {
+	var dateTimeSlot = _DTSlogic.GetDateTimeslotById(c.Param("id"))
+	c.JSON(http.StatusOK, dateTimeSlot)
+}
+
 // @Description Get all date time slots by a parameter
 // @Accept  json
 // @Produce  json
@@ -55,7 +59,6 @@ func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 			dates = append(dates, j)
 		}
 		date := time.Date(dates[0], time.Month(dates[1]), dates[2], 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60))
-		log.Println("Date param:", date)
 		dateTimeSlots := _DTSlogic.GetDateTimeslotsByDate(date)
 		c.JSON(http.StatusOK, dateTimeSlots)
 	case "dateId":
@@ -71,7 +74,6 @@ func (*handler) GetDateTimeslotByParam(c *gin.Context) {
 			dates = append(dates, j)
 		}
 		date := time.Date(dates[0], time.Month(dates[1]), dates[2], 0, 0, 0, 0, time.FixedZone("CEST", 2*60*60))
-		log.Println("Date param:", date)
 		dateTimeSlot := _DTSlogic.GetDateTimeslotsIdByDate(date)
 		c.JSON(http.StatusOK, dateTimeSlot)
 	}
