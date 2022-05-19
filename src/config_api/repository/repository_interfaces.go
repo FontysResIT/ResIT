@@ -16,3 +16,8 @@ type IDateTimeslot interface {
 	AllByDate(time.Time) []model.DateTimeSlot
 	IdByDate(time.Time) []primitive.ObjectID
 }
+
+type IRestaurant interface {
+	All() []model.Restaurant
+	Create(model.Restaurant) (model.Restaurant, error)
+}
