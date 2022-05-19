@@ -52,9 +52,9 @@ func TestGetAll(t *testing.T) {
 	mockRepo := new(ReservationRepository)
 	mockRepo2 := new(DateTimeSlotRepository)
 
-	userProfile := model.Reservation{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlotId: primitive.NewObjectID(), Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
+	userProfile := model.ReservationReadDTO{Id: primitive.NewObjectID(), FirstName: "Peter", LastName: "Pancakes", DateTimeSlot: model.DateTimeSlot{}, Email: "peter@example.com", GuestCount: 2, PhoneNumber: "+31 6 12345678"}
 
-	mockRepo.On("All").Return([]model.Reservation{userProfile})
+	mockRepo.On("All").Return([]model.ReservationReadDTO{userProfile})
 
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 
