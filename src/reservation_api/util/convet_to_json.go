@@ -45,7 +45,7 @@ func ReservationToModels(reservation model.ReservationReadDTO) (SharableReservat
 	customers := []SherableCustomer{}
 	customerIds := []Group{}
 	length := len(reservation.GuestPersona)
-	for i := 0; i <= length; i++ {
+	for i := 0; i < length; i++ {
 		g := reservation.GuestPersona[i]
 		dr := []DietaryRestriction{}
 		var c = SherableCustomer{}
@@ -89,5 +89,5 @@ func StructToJson(res model.ReservationReadDTO) {
 		log.Println(err)
 		return
 	}
-	log.Println("Test reservation:", test_res, "Test customers:", test_custs)
+	log.Println("Test reservation:", string(test_res), "Test customers:", string(test_custs))
 }
