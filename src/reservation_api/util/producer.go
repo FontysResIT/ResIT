@@ -3,7 +3,7 @@ package util
 import (
 	"github.com/FontysResIT/ResIT/config"
 	"github.com/FontysResIT/ResIT/model"
-	"github.com/FontysResIT/ResIT/util/kafka"
+	"github.com/FontysResIT/ResIT/util/confluent"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -18,7 +18,8 @@ func InitProducers() {
 	config := config.GetConfig()
 	if config.GetBool("kafka.enabled") {
 		log.Info("Initializing with a kafka producer")
-		_producers = append(_producers, kafka.NewProducer(config))
+		//_producers = append(_producers, kafka.NewProducer(config))
+		_producers = append(_producers, confluent.NewProducer(config))
 	}
 }
 

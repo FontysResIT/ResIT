@@ -9,7 +9,6 @@ mongo:
   password: "test"
 kafka:
   enabled: false
-  topic: "reservation"
   topic_prefix: ""
   partition: 0
   mechanism: plain

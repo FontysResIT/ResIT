@@ -23,18 +23,16 @@ type KafkaProducer struct{}
 func NewProducer(config *viper.Viper) *KafkaProducer {
 	var mechanism sasl.Mechanism
 	var username = config.GetString("kafka.username")
-	var password = config.GetString("kafka.username")
+	var password = config.GetString("kafka.password")
 	switch config.GetString("kafka.mechanism") {
 	case "plain":
 		mechanism = plainMechanism(username, password)
+		log.Infof("PLAIN %s", mechanism)
 	case "sasl":
 		mechanism = saslMechanism(username, password)
 	default:
 		mechanism = nil
 	}
-	// if err != nil {
-	// 	log.Error(err)
-	// }
 	writer = kafka.NewWriter(kafka.WriterConfig{
 		Brokers:     config.GetStringSlice("kafka.brokers"),
 		Logger:      kafka.LoggerFunc(log.Infof),
@@ -42,7 +40,7 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 		Dialer: &kafka.Dialer{
 			Timeout:       10 * time.Second,
 			DualStack:     true,
-			TLS:           &tls.Config{},
+			TLS:           &tls.Config{InsecureSkipVerify: true},
 			SASLMechanism: mechanism,
 		},
 	})
@@ -66,6 +64,7 @@ func plainMechanism(username string, password string) plain.Mechanism {
 func (*KafkaProducer) CreateReservation(reservation model.ReservationReadDTO) {
 	key, _ := reservation.Id.MarshalJSON()
 	reservationJson, _ := json.Marshal(reservation)
+	log.Infoln("Producing CreateReservation")
 	err := writer.WriteMessages(context.TODO(), kafka.Message{
 		Topic: topicPrefix + "reservationapi.reservation.create",
 		Key:   key,
