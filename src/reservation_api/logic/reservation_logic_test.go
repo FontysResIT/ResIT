@@ -71,7 +71,7 @@ func TestCreate(t *testing.T) {
 
 	// Setup expectations
 	mockRepo.On("Create").Return(userProfile)
-
+	mockRepo.On("GetById").Return(userProfile)
 	testService := NewReservationLogic(mockRepo, mockRepo2)
 
 	result, err := testService.CreateReservation(userProfile)
