@@ -30,6 +30,11 @@ func (*handler) GetAllDateTimeslots(c *gin.Context) {
 	c.JSON(http.StatusOK, dateTimeSlot)
 }
 
+func (*handler) GetDateTimeslotById(c *gin.Context) {
+	var dateTimeSlot = _DTSlogic.GetDateTimeslotById(c.Param("id"))
+	c.JSON(http.StatusOK, dateTimeSlot)
+}
+
 // @Description Get all date time slots by a parameter
 // @Accept  json
 // @Produce  json

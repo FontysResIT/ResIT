@@ -12,6 +12,7 @@ kafka:
   topic: "reservation"
   topic_prefix: ""
   partition: 0
+  mechanism: plain
   username: "test"
   password: "test"
   brokers:
