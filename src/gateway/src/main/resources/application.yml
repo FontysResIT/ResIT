@@ -8,7 +8,7 @@ spring:
     gateway:
       routes:
         - id: reservation-api
-          uri: http://localhost:8081
+          uri: http://reservation
           predicates:
             - Path=/r/**
           filters:
