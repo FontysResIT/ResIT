@@ -82,6 +82,10 @@ func Init() {
 	timeSlotLogic := logic.NewTimeSlotLogic(timeSlotRepository)
 	timeSlotHandler := handler.NewTimeSlotHandler(timeSlotLogic)
 
+	restaurantReposiotry := repository.Restaurant
+	restaurantSlotLogic := logic.NewRestaurantLogic(restaurantReposiotry)
+	restaurantHandler := handler.NewRestaurantHandler(restaurantSlotLogic)
+
 	engine.NoRoute(func(c *gin.Context) {
 		if !strings.HasPrefix(c.Request.RequestURI, "/api/") {
 			c.File("./public/index.html")
@@ -96,6 +100,10 @@ func Init() {
 	// Example: datetimeslots/dateId/2022-04-08
 	api.GET("/datetimeslots/:query/*param", dateTimeSlotHandler.GetDateTimeslotByParam)
 	api.GET("/timeslots", timeSlotHandler.GetAllTimeSlots)
+
+	api.GET("/restaurants", restaurantHandler.GetAll)
+	api.POST("/restaurants", restaurantHandler.Create)
+
 	fmt.Printf("[Server] listening on port %s \n", getPort(config))
 	engine.Run(fmt.Sprintf("%s:%s", config.GetString("host"), getPort(config)))
 }
