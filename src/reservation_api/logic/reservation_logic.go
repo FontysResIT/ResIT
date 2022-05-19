@@ -39,7 +39,8 @@ func (*logic) CreateReservation(reservation model.Reservation) (model.Reservatio
 	if err == nil {
 		go func() {
 			r := _repository.GetById(result.Id)
-			util.CreateReservation(r)
+			// util.CreateReservation(r)
+			util.StructToJson(r)
 		}()
 	}
 	return result, err
