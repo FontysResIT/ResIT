@@ -23,25 +23,52 @@ func NewReservationRepository(db *mongo.Database) *MongoDBReservation {
 	}
 }
 
-func (repo *MongoDBReservation) All() []model.Reservation {
-	var reservations []model.Reservation
+func (repo *MongoDBReservation) All() []model.ReservationReadDTO {
+	var reservations []model.ReservationReadDTO
+	lookup := bson.D{{Key: "$lookup", Value: bson.D{{Key: "from", Value: "date_timeslot"}, {Key: "localField", Value: "dts_id"}, {Key: "foreignField", Value: "_id"}, {Key: "as", Value: "datetime_slot"}}}}
+	unwind := bson.D{{Key: "$unwind", Value: bson.D{{Key: "path", Value: "$datetime_slot"}, {Key: "preserveNullAndEmptyArrays", Value: false}}}}
+	lookup2 := bson.D{{Key: "$lookup", Value: bson.D{{Key: "from", Value: "timeslots"}, {Key: "localField", Value: "datetime_slot.time_slot"}, {Key: "foreignField", Value: "_id"}, {Key: "as", Value: "datetime_slot.time_slot"}}}}
+	unwind2 := bson.D{{Key: "$unwind", Value: bson.D{{Key: "path", Value: "$datetime_slot.time_slot"}, {Key: "preserveNullAndEmptyArrays", Value: false}}}}
 	collection := repo.db.Collection("reservations")
-	result, err := collection.Find(context.TODO(), bson.D{})
+	//result, err := collection.Find(context.TODO(), bson.D{})
+	result, err := collection.Aggregate(context.TODO(), mongo.Pipeline{lookup, unwind, lookup2, unwind2})
 	if err != nil {
 		log.Error(err)
 	}
-	for result.Next(context.TODO()) {
+	// for result.Next(context.TODO()) {
 
-		// create a value into which the single document can be decoded
-		var elem model.Reservation
-		err := result.Decode(&elem)
-		if err != nil {
-			fmt.Println(err)
-		}
+	// 	// create a value into which the single document can be decoded
+	// 	var elem model.Reservation
+	// 	err := result.Decode(&elem)
+	// 	if err != nil {
+	// 		fmt.Println(err)
+	// 	}
 
-		reservations = append(reservations, elem)
+	// 	reservations = append(reservations, elem)
+	// }
+	if err = result.All(context.TODO(), &reservations); err != nil {
+		log.Error(err)
 	}
+	fmt.Println(reservations)
 	return reservations
+}
+
+func (repo *MongoDBReservation) GetById(id primitive.ObjectID) model.ReservationReadDTO {
+	var reservations []model.ReservationReadDTO
+	collection := repo.db.Collection("reservations")
+	lookup := bson.D{{Key: "$lookup", Value: bson.D{{Key: "from", Value: "date_timeslot"}, {Key: "localField", Value: "dts_id"}, {Key: "foreignField", Value: "_id"}, {Key: "as", Value: "datetime_slot"}}}}
+	unwind := bson.D{{Key: "$unwind", Value: bson.D{{Key: "path", Value: "$datetime_slot"}, {Key: "preserveNullAndEmptyArrays", Value: false}}}}
+	lookup2 := bson.D{{Key: "$lookup", Value: bson.D{{Key: "from", Value: "timeslots"}, {Key: "localField", Value: "datetime_slot.time_slot"}, {Key: "foreignField", Value: "_id"}, {Key: "as", Value: "datetime_slot.time_slot"}}}}
+	unwind2 := bson.D{{Key: "$unwind", Value: bson.D{{Key: "path", Value: "$datetime_slot.time_slot"}, {Key: "preserveNullAndEmptyArrays", Value: false}}}}
+	filter := bson.D{{Key: "$match", Value: bson.D{{Key: "_id", Value: id}}}}
+	result, err := collection.Aggregate(context.TODO(), mongo.Pipeline{filter, lookup, unwind, lookup2, unwind2})
+	if err != nil {
+		log.Error(err)
+	}
+	if err = result.All(context.TODO(), &reservations); err != nil {
+		log.Error(err)
+	}
+	return reservations[0]
 }
 
 func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
@@ -73,10 +100,10 @@ func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
 func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Reservation, error) {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.InsertOne(context.TODO(), reservation)
-	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
-		log.Error(err)
+		log.Error(result, err)
 	}
+	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	return reservation, err
 }
 
@@ -92,7 +119,7 @@ func (repo *MongoDBReservation) Cancel(id string) (model.Reservation, error) {
 
 	result := collection.FindOneAndUpdate(context.TODO(),
 		bson.M{"_id": objID}, bson.D{
-			{"$set", bson.D{{"is_cancelled", true}}},
+			{Key: "$set", Value: bson.D{{Key: "is_cancelled", Value: true}}},
 		}, options.MergeFindOneAndUpdateOptions(&options.FindOneAndUpdateOptions{ReturnDocument: options.FindOneAndUpdate().ReturnDocument}))
 
 	log.Println(result)

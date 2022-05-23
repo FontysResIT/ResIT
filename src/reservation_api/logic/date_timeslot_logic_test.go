@@ -30,6 +30,12 @@ func (mock *DateTimeSlotRepository) IdByDate(param time.Time) []string {
 	return result.([]string)
 }
 
+func (mock *DateTimeSlotRepository) ById(id primitive.ObjectID) model.DateTimeSlot {
+	args := mock.Called()
+	result := args.Get(0)
+	return result.(model.DateTimeSlot)
+}
+
 func TestGetAllDateTimeSlots(t *testing.T) {
 	mockRepo := new(DateTimeSlotRepository)
 

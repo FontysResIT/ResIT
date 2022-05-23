@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: reservation-api
+          uri: http://reservation
+          predicates:
+            - Path=/r/**
+          filters:
+            - StripPrefix=1
+        - id: datetime-api
+          uri: http://datetime
+          predicates:
+            - Path=/dt/**
+          filters:
+            - StripPrefix=1
+        - id: config-api
+          uri: http://config
+          predicates:
+            - Path=/config/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true
