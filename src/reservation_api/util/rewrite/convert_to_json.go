@@ -1,10 +1,11 @@
-package util
+package rewrite
 
 import (
 	"encoding/json"
 	"log"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/FontysResIT/ResIT/model"
@@ -50,10 +51,10 @@ func ReservationToModels(reservation model.ReservationReadDTO) (SharableReservat
 		dr := []DietaryRestriction{}
 		var c = SherableCustomer{}
 		for _, dreq := range g.DietaryRequirements {
-			dr = append(dr, DietaryRestriction{Name: dreq, Comment: "No " + dreq})
+			dr = append(dr, DietaryRestriction{Name: dreq, Comment: "No " + strings.ToLower(dreq)})
 		}
 		for _, fp := range g.FoodPreferences {
-			dr = append(dr, DietaryRestriction{Name: fp, Comment: "No " + fp})
+			dr = append(dr, DietaryRestriction{Name: fp, Comment: "Include " + strings.ToLower(fp)})
 		}
 		if i == 0 {
 			c = SherableCustomer{Id: creatorId, Name: g.GuestName, Email: "", DietaryRestrictions: dr}
@@ -72,22 +73,21 @@ func ReservationToModels(reservation model.ReservationReadDTO) (SharableReservat
 	sr := SharableReservation{Id: reservation.Id, RestaurantId: reservation.RestaurantId, CustomerId: creatorId,
 		GroupSize: reservation.GuestCount, Group: customerIds, TableNumber: strconv.Itoa(rand.Intn(100)),
 		CreatedAt: reservation.DateTimeSlot.Date, State: reservationStatus, Comment: reservation.Remark, SingleHoushold: false}
-	log.Println("Customers:", customers, "Customer IDs:", customerIds, "GuestPersona lenght:", length, "Reservations:", sr)
-
 	return sr, customers
 }
 
-func StructToJson(res model.ReservationReadDTO) {
+func StructToJson(res model.ReservationReadDTO) ([]byte, []byte) {
 	sr, sc := ReservationToModels(res)
-	test_res, err := json.Marshal(sr)
+	final_res, err := json.Marshal(sr)
 	if err != nil {
-		log.Println(err)
-		return
+		log.Println("test_res", err)
+		return nil, nil
 	}
-	test_custs, err := json.Marshal(sc)
+	final_custs, err := json.Marshal(sc)
 	if err != nil {
-		log.Println(err)
-		return
+		log.Println("test_cust", err)
+		return nil, nil
 	}
-	log.Println("Test reservation:", string(test_res), "Test customers:", string(test_custs))
+	log.Println("Test reservation:", string(final_res), "Test customers:", string(final_custs))
+	return final_res, final_custs
 }
