@@ -37,8 +37,8 @@
 
 ## Update API Docs
 
-1. Run `swag init --parseDependency --parseInternal --ot go,yaml` in this current folder
-2. New swagger documentation can now be found in the `/docs` folder
+1. Run `swag init --parseDependency --parseInternal --ot go,yaml` in this current folder.
+2. New swagger documentation can now be found in the `/docs` folder.
 
 _Read [swaggo](https://github.com/swaggo/swag) docs for more info_
 
