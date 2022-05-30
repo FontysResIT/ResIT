@@ -12,6 +12,7 @@ import (
 	"github.com/FontysResIT/ResIT/router/http/handler"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -67,6 +68,7 @@ func Init() {
 	engine.SetTrustedProxies([]string{})
 	engine.Use(gin.Recovery())
 	engine.Use(static.Serve("/", static.LocalFile("./public", true)))
+	engine.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	api := engine.Group("/api/")
 	api.Use(corsMiddleware())
 	//Swagger Config & Routes
