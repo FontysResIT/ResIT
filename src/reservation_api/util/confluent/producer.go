@@ -46,7 +46,7 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 func (*KafkaProducer) CreateReservation(reservation model.ReservationReadDTO) {
 	key, _ := reservation.Id.MarshalJSON()
 	//topic := "reservationapi.reservation.create"
-	topic := topicPrefix + "mockTopic"
+	topic := topicPrefix + "dinnerinmotion.reservations.create"
 	reservationJson, _ := rewrite.StructToJson(reservation)
 	log.Infoln("Producing CreateReservation")
 	writer.Produce(&kafka.Message{
