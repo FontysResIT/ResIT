@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/FontysResIT/ResIT/model"
+	"github.com/FontysResIT/ResIT/util/rewrite"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -45,8 +46,8 @@ func NewProducer(config *viper.Viper) *KafkaProducer {
 func (*KafkaProducer) CreateReservation(reservation model.ReservationReadDTO) {
 	key, _ := reservation.Id.MarshalJSON()
 	//topic := "reservationapi.reservation.create"
-	topic := topicPrefix + "mockTopic"
-	reservationJson, _ := json.Marshal(reservation)
+	topic := topicPrefix + "dinnerinmotion.reservations.create"
+	reservationJson, _ := rewrite.StructToJson(reservation)
 	log.Infoln("Producing CreateReservation")
 	writer.Produce(&kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: int32(kafka.PartitionAny)},
