@@ -43,7 +43,6 @@ func (*logic) CreateReservation(reservation model.Reservation) (model.Reservatio
 		}()
 	}
 	return result, err
-
 }
 
 func (*logic) CancelReservation(id string) (model.Reservation, error) {

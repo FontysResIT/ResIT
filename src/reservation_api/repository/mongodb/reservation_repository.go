@@ -87,10 +87,10 @@ func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
 func (repo *MongoDBReservation) Create(reservation model.Reservation) (model.Reservation, error) {
 	collection := repo.db.Collection("reservations")
 	result, err := collection.InsertOne(context.TODO(), reservation)
-	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	if err != nil {
-		log.Error(err)
+		log.Error(result, err)
 	}
+	reservation.Id = result.InsertedID.(primitive.ObjectID)
 	return reservation, err
 }
 
