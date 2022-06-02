@@ -2,7 +2,6 @@ package rewrite
 
 import (
 	"encoding/json"
-	"log"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -80,14 +79,12 @@ func StructToJson(res model.ReservationReadDTO) ([]byte, []byte) {
 	sr, sc := ReservationToModels(res)
 	final_res, err := json.Marshal(sr)
 	if err != nil {
-		log.Println("test_res", err)
 		return nil, nil
 	}
 	final_custs, err := json.Marshal(sc)
 	if err != nil {
-		log.Println("test_cust", err)
 		return nil, nil
 	}
-	log.Println("Test reservation:", string(final_res), "Test customers:", string(final_custs))
+
 	return final_res, final_custs
 }

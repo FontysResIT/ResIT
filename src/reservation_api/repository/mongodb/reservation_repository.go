@@ -30,26 +30,13 @@ func (repo *MongoDBReservation) All() []model.ReservationReadDTO {
 	lookup2 := bson.D{{Key: "$lookup", Value: bson.D{{Key: "from", Value: "timeslots"}, {Key: "localField", Value: "datetime_slot.time_slot"}, {Key: "foreignField", Value: "_id"}, {Key: "as", Value: "datetime_slot.time_slot"}}}}
 	unwind2 := bson.D{{Key: "$unwind", Value: bson.D{{Key: "path", Value: "$datetime_slot.time_slot"}, {Key: "preserveNullAndEmptyArrays", Value: false}}}}
 	collection := repo.db.Collection("reservations")
-	//result, err := collection.Find(context.TODO(), bson.D{})
 	result, err := collection.Aggregate(context.TODO(), mongo.Pipeline{lookup, unwind, lookup2, unwind2})
 	if err != nil {
 		log.Error(err)
 	}
-	// for result.Next(context.TODO()) {
-
-	// 	// create a value into which the single document can be decoded
-	// 	var elem model.Reservation
-	// 	err := result.Decode(&elem)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
-
-	// 	reservations = append(reservations, elem)
-	// }
 	if err = result.All(context.TODO(), &reservations); err != nil {
 		log.Error(err)
 	}
-	fmt.Println(reservations)
 	return reservations
 }
 
