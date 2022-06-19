@@ -16,18 +16,13 @@
 - [x] Implement mongo
 - [x] Create API structure
 - [x] Get all reservations
-- [ ] Query parameters
-- [ ] Connect API with front-end
+- [x] Query parameters
+- [x] Connect API with front-end
 - [x] Swagger documentation
-- [ ] Create reservation
-- [ ] Cancel reservation
-- [ ] Configure timeslots
-- [ ] Configure capacity
-- [ ] Create special event
-- [ ] Security (accounts, roles)
-- [ ] Statistics (kpi's, charts, line diagrams etc.)
-- [ ] Reschedule reservation
-- [ ] Reviews
+- [x] Create reservation
+- [x] Cancel reservation
+- [x] Configure timeslots
+- [x] Configure capacity
 
 <span>© ResIT</span>
 
