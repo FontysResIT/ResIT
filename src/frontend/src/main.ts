@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
-
+import "flowbite";
 //Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library, type Library } from "@fortawesome/fontawesome-svg-core";
@@ -15,6 +15,7 @@ import {
   faUtensils,
   faClock,
   faTimes,
+  faPlus,
   faUser,
   faSearch,
   faCaretDown,
@@ -29,6 +30,7 @@ const addIcons = (lib: Library) => {
   lib.add(faClock);
   lib.add(faTimes);
   lib.add(faUser);
+  lib.add(faPlus);
   lib.add(faSearch);
   lib.add(faCaretDown);
 };

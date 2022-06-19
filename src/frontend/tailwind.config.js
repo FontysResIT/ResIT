@@ -1,6 +1,6 @@
 /* eslint-disable */
 module.exports = {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}","./node_modules/flowbite/**/*.js"],
   theme: {
     colors: {
       primary: "#29A0B1",
@@ -17,5 +17,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require('flowbite/plugin')],
 };

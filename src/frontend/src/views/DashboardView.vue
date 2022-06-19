@@ -5,6 +5,7 @@ import SearchInput from "../components/SearchInput.vue";
 import DateInput from "../components/DateInput.vue";
 import { onMounted, ref } from "vue";
 import AxiosService from "@/AxiosService";
+import ReservationModalVue from "../components/ReservationModal.vue";
 let loading = ref(true);
 const data = ref([]);
 onMounted(async () => {
@@ -15,6 +16,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-1 flex-col md:gap-6 gap-4 flex-wrap p-6">
+    <ReservationModalVue />
     <div
       class="flex flex-1 sm:flex-grow-0 sm:h-auto flex-row md:gap-6 gap-4 flex-wrap"
     >

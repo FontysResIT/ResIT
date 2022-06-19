@@ -4,9 +4,7 @@ import type { TimeSlot } from "./models/TimeSlot";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const headers = {
-  // here we put our headers
-};
+const headers = {};
 class AxiosService {
   async getAllReservations() {
     try {
