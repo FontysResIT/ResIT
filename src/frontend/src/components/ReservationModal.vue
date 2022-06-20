@@ -33,7 +33,7 @@ undefined;
           <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
             Create a New Reservation
           </h3>
-          <form class="space-y-6" action="#">
+          <form class="space-y-6" @submit.prevent>
             <div class="flex flex-row space-x-2">
               <div class="flex flex-col flex-1">
                 <label

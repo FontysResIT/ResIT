@@ -1,0 +1,36 @@
+{
+    "id": "628619beac4c2aa79478bee5",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "resit@gmail.com",
+    "phone_number": "0612345678",
+    "remark": "first date",
+    "guest_count": 2,
+    "guest_persona": [
+        {
+            "guest_name": "John",
+            "dietary_requirements": [
+                "VEGETARIAN",
+                "GREEN VEGETABLES"
+            ],
+            "remark": "",
+            "food_preferences": [
+                "BEYOND MEAT"
+            ]
+        },
+        {
+            "guest_name": "Donald",
+            "dietary_requirements": [
+                "DIERY"
+            ],
+            "remark": "",
+            "food_preferences": [
+                "MEAT"
+            ]
+        }
+    ],
+    "is_cancelled": false,
+    "is_rescheduled": false,
+    "dts_id": "624ee1fe3b42a029933c7a90",
+    "restaurant_id": "4543fe3b42a029933ca90432"
+}

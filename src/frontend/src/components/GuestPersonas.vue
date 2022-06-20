@@ -48,15 +48,17 @@ function removeGuest(guest: Guest) {
             >Dietary Requirement</label
           >
           <select
+            v-model="item.dietary_requirements"
+            multiple
             name="requirement"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             id="requirement"
           >
-            <option value="volvo">None</option>
-            <option value="saab">Vegan</option>
-            <option value="opel">Vegetarian</option>
-            <option value="audi">Tree nut and peanut allergies</option>
-            <option value="audi">Fish and shellfish allergies</option>
+            <option value="NONE">None</option>
+            <option value="VEGAN">Vegan</option>
+            <option value="VEGETARIAN">Vegetarian</option>
+            <option value="PEANUT">Tree nut and peanut allergies</option>
+            <option value="FISH">Fish and shellfish allergies</option>
           </select>
         </div>
         <div class="flex flex-col">
