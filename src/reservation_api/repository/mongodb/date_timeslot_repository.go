@@ -71,7 +71,7 @@ func (repo *MongoDBDateTimeslot) IdByDate(param time.Time) []string {
 	log.Println(result)
 	for result.Next(context.TODO()) {
 
-		var elem model.DateTimeSlot
+		var elem model.DateTimeSlotTemp
 		err := result.Decode(&elem)
 		if err != nil {
 			log.Println(err)

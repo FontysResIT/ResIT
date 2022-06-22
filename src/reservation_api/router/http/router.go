@@ -71,6 +71,7 @@ func Init() {
 	engine.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	api := engine.Group("/api/")
 	api.Use(corsMiddleware())
+	engine.Use(corsMiddleware())
 	//Swagger Config & Routes
 	docs.SwaggerInfo.BasePath = "/api"
 	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -133,16 +134,14 @@ func getPort(config *viper.Viper) string {
 func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		fmt.Println("Setting headers")
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
 			return
 		}
-
 		c.Next()
 	}
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Reservation } from "./models/Reservation";
+import type { ReservationCreate } from "./models/ReservationCreate";
 import type { TimeSlot } from "./models/TimeSlot";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -33,29 +34,25 @@ class AxiosService {
       console.log(error);
     }
   }
-  async getReservationsByDate(date: Date) {
+  async getReservationsByDate(date: string) {
     try {
-      await axios
-        .get(`${BASE_URL}/reservations/date/${date}`, {
+      return await axios
+        .get(`${BASE_URL}/reservations/${date}`, {
           headers: headers,
         })
         .then(function (response) {
-          return response;
+          return response.data;
         });
     } catch (error) {
       console.log(error);
     }
   }
-  async createReservation(reservation: Reservation) {
+  async createReservation(reservation: ReservationCreate) {
     try {
       await axios
-        .post(
-          `${BASE_URL}/reservations`,
-          { reservation: reservation },
-          {
-            headers: headers,
-          }
-        )
+        .post(`${BASE_URL}/reservations`, reservation, {
+          headers: headers,
+        })
         .then(function (response) {
           return response;
         });

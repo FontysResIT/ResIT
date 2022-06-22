@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Props {
   label: string;
+  change: (a: any) => void;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -12,7 +13,13 @@ const today = new Date().toISOString().slice(0, 10);
 <template>
   <div class="flex justify-around flex-1">
     <div>
-      <input type="date" class="border-none" id="datePicker" :value="today" />
+      <input
+        type="date"
+        class="border-none"
+        id="datePicker"
+        :value="today"
+        @change="change"
+      />
     </div>
     <div>
       <button

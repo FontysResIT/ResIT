@@ -62,11 +62,20 @@ func (repo *MongoDBReservation) AllByDate(dtsId []string) []model.Reservation {
 	var reservations []model.Reservation
 	collection := repo.db.Collection("reservations")
 	log.Println("DTSID LENGHT", len(dtsId))
+	var dts []primitive.ObjectID
+	for i := range dtsId {
+		dt, err := primitive.ObjectIDFromHex(dtsId[i])
+		if err != nil {
+			fmt.Println(err)
+		}
+		dts = append(dts, dt)
+	}
+	fmt.Println(dts)
 	var filter = bson.M{}
 	if len(dtsId) < 1 {
 		filter = bson.M{"dts_id": 0}
 	} else {
-		filter = bson.M{"dts_id": bson.M{"$in": dtsId}}
+		filter = bson.M{"dts_id": bson.M{"$in": dts}}
 	}
 	result, err := collection.Find(context.TODO(), filter)
 	if err != nil {

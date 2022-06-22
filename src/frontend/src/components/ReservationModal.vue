@@ -1,6 +1,23 @@
 <script setup lang="ts">
+import AxiosService from "@/AxiosService";
+import type { Guest } from "@/models/Guest";
+import type { ReservationCreate } from "@/models/ReservationCreate";
+import { ref, type Ref } from "vue";
 import GuestPersonas from "./GuestPersonas.vue";
-undefined;
+
+let reservation: Ref<ReservationCreate> = ref({
+  guest_persona: [] as Guest[],
+  restaurant_id: "4543fe3b42a029933ca90432",
+  dts_id: "624ee1fe3b42a029933c7a90",
+  is_cancelled: false,
+  is_rescheduled: false,
+  guest_count: 1,
+} as ReservationCreate);
+
+function submit() {
+  console.log(reservation.value);
+  AxiosService.createReservation(reservation.value);
+}
 </script>
 <template>
   <div
@@ -42,6 +59,7 @@ undefined;
                   >Your firstname</label
                 >
                 <input
+                  v-model="reservation.first_name"
                   type="text"
                   name="firstname"
                   id="firstname"
@@ -57,6 +75,7 @@ undefined;
                   >Your lastname</label
                 >
                 <input
+                  v-model="reservation.last_name"
                   type="text"
                   name="lastname"
                   id="lastname"
@@ -74,6 +93,7 @@ undefined;
                   >Your Email</label
                 >
                 <input
+                  v-model="reservation.email"
                   type="email"
                   name="email"
                   id="email"
@@ -89,6 +109,7 @@ undefined;
                   >Your Phone</label
                 >
                 <input
+                  v-model="reservation.phone_number"
                   type="text"
                   name="phone"
                   id="phone"
@@ -106,6 +127,7 @@ undefined;
                   >Your Remark</label
                 >
                 <textarea
+                  v-model="reservation.remark"
                   rows="1"
                   name="remark"
                   id="remark"
@@ -114,9 +136,44 @@ undefined;
                 />
               </div>
             </div>
-            <GuestPersonas />
+            <div class="flex flex-row space-x-2">
+              <div class="flex flex-col flex-1">
+                <label
+                  for="remark"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Date</label
+                >
+                <input
+                  type="date"
+                  id="start"
+                  name="trip-start"
+                  value="2022-07-22"
+                  min="2022-01-01"
+                  max="2022-12-31"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                />
+              </div>
+              <div class="flex flex-col flex-1">
+                <label
+                  for="remark"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Timeslot</label
+                >
+                <input
+                  type="time"
+                  id="start"
+                  name="trip-start"
+                  value="18:00"
+                  min="09:00"
+                  max="22:00"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                />
+              </div>
+            </div>
+            <GuestPersonas :guests="reservation.guest_persona" />
             <button
               type="submit"
+              @click="submit"
               class="w-full text-white bg-primary hover:bg-muted focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Create

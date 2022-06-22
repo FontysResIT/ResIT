@@ -9,9 +9,20 @@ import ReservationModalVue from "../components/ReservationModal.vue";
 let loading = ref(true);
 const data = ref([]);
 onMounted(async () => {
-  data.value = await AxiosService.getAllReservations();
+  data.value = await AxiosService.getReservationsByDate(
+    new Date().toJSON().slice(0, 10).replace(/-/g, "-")
+  );
   loading.value = false;
 });
+
+async function fetchDates(e: InputEvent) {
+  console.log(e);
+  loading.value = true;
+  data.value = await AxiosService.getReservationsByDate(
+    (e.target as HTMLInputElement).value
+  );
+  loading.value = false;
+}
 </script>
 
 <template>
@@ -49,7 +60,7 @@ onMounted(async () => {
           </div>
           <div class="flex flex-[2] justify-center p-2"><SearchInput /></div>
           <div class="flex flex-1 justify-start md:justify-center p-2">
-            <DateInput />
+            <DateInput :change="fetchDates" />
           </div>
         </div>
         <div class="flex flex-row p-4">

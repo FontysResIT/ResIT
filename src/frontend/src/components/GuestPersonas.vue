@@ -1,16 +1,20 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-mutating-props */
 import type { Guest } from "@/models/Guest";
-import { ref, type Ref } from "vue";
 
-let guests: Ref<Guest[]> = ref([]);
-
+const props = defineProps(["guests"]);
+console.log(props.guests);
 function addGuest() {
-  guests.value.push({ guest_name: "" } as Guest);
+  props.guests.push({
+    guest_name: "",
+    food_preferences: [] as string[],
+    dietary_requirements: [] as string[],
+  } as Guest);
 }
 
 function removeGuest(guest: Guest) {
-  const i = guests.value.indexOf(guest);
-  guests.value.splice(i, 1);
+  const i = props.guests.indexOf(guest);
+  props.guests.splice(i, 1);
 }
 </script>
 <template>
